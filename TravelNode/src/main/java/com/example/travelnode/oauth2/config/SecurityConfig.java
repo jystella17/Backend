@@ -45,7 +45,7 @@ public class SecurityConfig {
                 .antMatchers("/", "/login/oauth2/**").permitAll()
                 // 로그인 URL과 Home URL에는 모든 사용자가 접근 가능
                 .antMatchers(HttpMethod.POST, "/api/**")
-                .hasAnyRole(RoleType.USER.getCode(), RoleType.ADMIN.getCode())
+                .hasAnyRole("USER", "ADMIN")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 // Home과 로그인 URL을 제외한 페이지는 관리자 혹은 가입된 유저만 접근 가능
                 .anyRequest().authenticated().and() // 이외에는 인증된 사용자만 접근 가능
