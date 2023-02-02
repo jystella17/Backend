@@ -3,19 +3,16 @@ package com.example.travelnode.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
+@Entity
 @Getter
 @Builder
-@Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Table(name = "USER")
 public class User {
@@ -27,12 +24,12 @@ public class User {
 
     @NotNull
     @Size(max = 128)
-    @Column(name = "EMAIL", length = 128)
+    @Column(name = "EMAIL", length = 128, unique = true)
     private String email;
 
     @NotNull
     @Size(max = 20)
-    @Column(name = "USER_ID", length = 20)
+    @Column(name = "USER_ID", length = 20, unique = true)
     private String userId;
 
     @NotNull
