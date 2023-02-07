@@ -20,7 +20,7 @@ public class UserPreference {
     private Long upId;
 
     @NotNull
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "uid", foreignKey = @ForeignKey(name = "fk_up_uid"))
     private User user;
 
