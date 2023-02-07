@@ -33,7 +33,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String uniqueId = userRequest.getClientRegistration().getProviderDetails().
                 getUserInfoEndpoint().getUserNameAttributeName();
 
-        OAuthAttributes attributes = OAuthAttributes.of();
+        // OAuthAttributes attributes = OAuthAttributes.of();
 
         return null;
     }

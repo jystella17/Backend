@@ -1,19 +1,18 @@
 package com.example.travelnode.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sun.istack.NotNull;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@DynamicInsert
 @Table(name = "USER")
 public class User {
 
@@ -28,41 +27,19 @@ public class User {
     private String email;
 
     @NotNull
-    @Size(max = 20)
-    @Column(name = "USER_ID", length = 20, unique = true)
-    private String userId;
-
-    @NotNull
     @Size(max = 10)
     @Column(name = "NICKNAME", length = 10)
     private String nickname;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "PROVIDER_TYPE", length = 20)
+    @Column(name = "ROLE_TYPE", length = 20)
     private RoleType roleType;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "ROLE_TYPE", length = 10)
+    @Column(name = "PROVIDER_TYPE", length = 10)
     private ProviderType providerType;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "GENDER", length = 10)
-    private GenderType gender;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "AGE", length = 10)
-    private AgeType age;
-
-    @NotNull
-    @JsonProperty("profileImgUrl")
-    @Column(name = "PROFILE_IMG_URL", length = 512)
-    private String profileImgUrl;
-
-    @JsonIgnore
-    @Column(name = "PROFILE_IMG_NAME", length = 512)
-    private String profileImgName;
 
     @NotNull
     @Column(name = "CREATED_AT")
@@ -71,27 +48,50 @@ public class User {
     @Column(name = "MODIFIED_AT")
     private LocalDateTime modifiedAt;
 
-    public User(
-            @NotNull @Size(max = 128) String email,
-            @NotNull @Size(max = 20) String userId,
-            @NotNull @Size(max = 10) String nickname,
-            @NotNull RoleType roleType,
-            @NotNull ProviderType providerType,
-            GenderType gender,
-            AgeType age,
-            String profileImgUrl,
-            @NotNull LocalDateTime createdAt,
-            @NotNull LocalDateTime modifiedAt
-    ) {
+    // @NotNull
+    @ManyToOne
+    @JoinColumn(name = "avatarId", foreignKey = @ForeignKey(name = "fk_user_avatarId"))
+    private Avatar avatar;
+
+    @NotNull
+    @ColumnDefault("0")
+    @Column(name = "TRAVEL_COUNT")
+    private Integer travelCount;
+
+    @NotNull
+    @ColumnDefault("1")
+    @Column(name = "LEVEL")
+    private Integer level;
+
+    @Builder
+    public User( // 새로운 유저가 가입하는 경우
+            @NotNull @Size(max = 128) String email, @NotNull @Size(max = 10) String nickname,
+            @NotNull RoleType roleType, @NotNull ProviderType providerType, @NotNull LocalDateTime createdAt) {
         this.email = email != null ? email : "NO_EMAIL";
-        this.userId = userId;
         this.nickname = nickname;
         this.roleType = roleType;
         this.providerType = providerType;
-        this.gender = gender != null ? gender : GenderType.UNDEFINED;
-        this.age = age != null ? age : AgeType.UNDEFINED;
-        this.profileImgUrl = profileImgUrl != null ? profileImgUrl : "";
         this.createdAt = createdAt;
+        // @NotNull Avatar avatar
+        // this.avatar = avatar;
+    }
+
+    @Builder
+    public User(@NotNull @Size(max = 10) String nickname, LocalDateTime modifiedAt){ // 닉네임을 변경하는 경우
+        this.nickname = nickname;
         this.modifiedAt = modifiedAt;
     }
+
+    @Builder
+    public User(@NotNull Integer travelCount, @NotNull Integer level){ // 여행을 완료하여 여행 횟수&레벨을 변경하는 경우
+        this.travelCount = travelCount;
+        this.level = level;
+    }
+
+    /**
+    @Builder
+    public User(@NotNull Avatar avatar){ // 아바타를 변경하는 경우
+        this.avatar = avatar;
+    }
+    **/
 }

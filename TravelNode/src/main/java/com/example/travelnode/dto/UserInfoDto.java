@@ -1,7 +1,6 @@
 package com.example.travelnode.dto;
 
-import com.example.travelnode.entity.AgeType;
-import com.example.travelnode.entity.GenderType;
+import com.example.travelnode.entity.Avatar;
 import com.example.travelnode.entity.ProviderType;
 import com.example.travelnode.entity.RoleType;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -17,14 +16,12 @@ import java.time.LocalDateTime;
 public class UserInfoDto implements Serializable {
     private Long uid;
     private String email;
-    private String userId;
     private String nickname;
     private RoleType roleType;
     private ProviderType providerType;
-    private GenderType gender;
-    private AgeType age;
-    private String profileImgUrl;
-    private String profileImgName;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+    private Avatar avatar;
+    private Integer travelCount;
+    private Integer level;
 }

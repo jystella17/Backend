@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query("SELECT u.uid, u.email, u.userId, u.nickname, u.roleType, u.providerType, u.gender, u.age, " +
-            "u.profileImgUrl, u.profileImgName, u.createdAt, u.modifiedAt FROM User u")
+    @Query("SELECT u.uid, u.email, u.nickname, u.roleType, u.providerType, u.createdAt, " +
+            "u.modifiedAt, u.avatar, u.travelCount, u.level FROM User u")
     List<UserInfoDto> findAllByUid(Pageable pageable);
 
     @Query("SELECT u FROM User u WHERE u.nickname = ?1")
