@@ -1,21 +1,29 @@
 package com.example.travelnode.service;
 
+import com.example.travelnode.dto.UserInfoDto;
 import com.example.travelnode.entity.OAuthAttributes;
+import com.example.travelnode.entity.User;
 import com.example.travelnode.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpSession;
+import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final UserRepository userRepository;
+    private final HttpSession httpSession;
 
     @SneakyThrows
     @Override
@@ -28,13 +36,33 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         // Naver, Kakao, Google 중 어느 계정인지
         String provider = userRequest.getClientRegistration().getRegistrationId();
-        // 각 계정의 고유 id를 받아옴
-        // 소셜 서비스마다 고유 id를 저장하는 필드의 이름이 다르므로, 먼저 해당 필드명을 찾고 데이터를 가져와야 함
+        // 각 계정의 고유 id (소셜 서비스마다 고유 id를 저장하는 필드의 이름이 다르므로, 먼저 해당 필드명을 찾고 데이터를 가져와야 함)
         String uniqueId = userRequest.getClientRegistration().getProviderDetails().
                 getUserInfoEndpoint().getUserNameAttributeName();
 
-        // OAuthAttributes attributes = OAuthAttributes.of();
+        OAuthAttributes attributes = OAuthAttributes.of(provider, uniqueId, oAuth2User.getAttributes());
+        if(attributes == null){
+            return null; // attributes에서 NullPointerException이 발생하는 경우 예외 처리 필요
+        }
 
-        return null;
+        User isAlready = userRepository.findByEmail(attributes.getEmail());
+        if(isAlready != null) {
+            throw new Exception("이미 가입된 계정입니다.");
+        }
+        else{
+            isAlready = createUser(attributes);
+        }
+
+        httpSession.setAttribute("user", new UserInfoDto(isAlready));
+
+        return new DefaultOAuth2User(
+                Collections.singleton(new SimpleGrantedAuthority(isAlready.getRoleType().getCode())),
+                        attributes.getAttributes(), attributes.getNameAttributeKey());
+    }
+
+    private User createUser(OAuthAttributes attributes) {
+        User user = attributes.toEntity();
+
+        return userRepository.saveAndFlush(user);
     }
 }
