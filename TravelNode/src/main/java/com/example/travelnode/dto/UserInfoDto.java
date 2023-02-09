@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
-@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserInfoDto implements Serializable {
     private Long uid;
@@ -22,7 +21,7 @@ public class UserInfoDto implements Serializable {
     private ProviderType providerType;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private Avatar avatar;
+    // private Avatar avatar;
     private Integer travelCount;
     private Integer level;
 

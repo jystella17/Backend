@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u.uid, u.email, u.nickname, u.roleType, u.providerType, u.createdAt, " +
-            "u.modifiedAt, u.avatar, u.travelCount, u.level FROM User u")
+            "u.modifiedAt, u.travelCount, u.level FROM User u")
     List<UserInfoDto> findAllByUid(Pageable pageable);
 
     @Query("SELECT u FROM User u WHERE u.nickname = ?1")

@@ -53,6 +53,8 @@ public class OAuthAttributes { // OAuth2User의 return 값은 Map 형태이므�
                 .roleType(RoleType.USER)
                 .providerType(ProviderType.KAKAO)
                 .createdAt(LocalDateTime.now())
+                .travelCount(0)
+                .level(1)
                 .build();
     }
 }

@@ -66,7 +66,8 @@ public class User {
     @Builder
     public User( // 새로운 유저가 가입하는 경우
             @NotNull @Size(max = 128) String email, @NotNull @Size(max = 10) String nickname,
-            @NotNull RoleType roleType, @NotNull ProviderType providerType, @NotNull LocalDateTime createdAt) {
+            @NotNull RoleType roleType, @NotNull ProviderType providerType, @NotNull LocalDateTime createdAt,
+            Integer travelCount, Integer level) {
         this.email = email != null ? email : "NO_EMAIL";
         this.nickname = nickname;
         this.roleType = roleType;
@@ -74,6 +75,8 @@ public class User {
         this.createdAt = createdAt;
         // @NotNull Avatar avatar
         // this.avatar = avatar;
+        this.travelCount = travelCount != null ? travelCount : 0;
+        this.level = level != null ? level : 1;
     }
 
     @Builder

@@ -45,7 +45,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             return null; // attributes에서 NullPointerException이 발생하는 경우 예외 처리 필요
         }
 
-        User isAlready = userRepository.findByEmail(attributes.getEmail());
+        User isAlready = userRepository.findByEmail(attributes.getEmail()); // DB에서 찾을 수 있는 이미 가입된 유저인지
         if(isAlready != null) {
             throw new Exception("이미 가입된 계정입니다.");
         }
@@ -63,6 +63,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     private User createUser(OAuthAttributes attributes) {
         User user = attributes.toEntity();
 
-        return userRepository.saveAndFlush(user);
+        return userRepository.save(user);
     }
 }
