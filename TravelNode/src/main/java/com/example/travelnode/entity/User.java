@@ -23,7 +23,7 @@ public class User {
 
     @NotNull
     @Column(name = "UNIQUE_ID", unique = true)
-    private String uniqueId;
+    private Long uniqueId;
 
     @NotNull
     @Size(max = 128)
@@ -69,7 +69,7 @@ public class User {
 
     @Builder
     public User( // 새로운 유저가 가입하는 경우
-            @NotNull @Size(max = 128) String uniqueId, String email, @NotNull @Size(max = 10) String nickname,
+            @NotNull @Size(max = 128) Long uniqueId, String email, @NotNull @Size(max = 10) String nickname,
             @NotNull RoleType roleType, @NotNull ProviderType providerType, @NotNull LocalDateTime createdAt,
             @NotNull LocalDateTime modifiedAt, Integer travelCount, Integer level) {
         this.uniqueId = uniqueId;
