@@ -41,16 +41,15 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 getUserInfoEndpoint().getUserNameAttributeName();
 
         OAuthAttributes attributes = OAuthAttributes.of(provider, uniqueId, oAuth2User.getAttributes());
-        if(attributes == null){
-            return null; // attributes에서 NullPointerException이 발생하는 경우 예외 처리 필요
-        }
 
         User isAlready = userRepository.findByEmail(attributes.getEmail()); // DB에서 찾을 수 있는 이미 가입된 유저인지
         if(isAlready != null) {
-            throw new Exception("이미 가입된 계정입니다.");
+            System.out.println(isAlready.getEmail());
+            System.out.println(isAlready.getNickname());
+            // throw new Exception("이미 가입된 계정입니다.");
         }
         else{
-            isAlready = createUser(attributes);
+            isAlready = createUser(attributes, uniqueId);
         }
 
         httpSession.setAttribute("user", new UserInfoDto(isAlready));
@@ -60,7 +59,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                         attributes.getAttributes(), attributes.getNameAttributeKey());
     }
 
-    private User createUser(OAuthAttributes attributes) {
+    private User createUser(OAuthAttributes attributes, String uniqueId) {
         User user = attributes.toEntity();
 
         return userRepository.save(user);

@@ -48,11 +48,13 @@ public class OAuthAttributes { // OAuth2User의 return 값은 Map 형태이므�
 
     public User toEntity(){
         return User.builder()
+                .uniqueId(nameAttributeKey)
                 .email(email)
                 .nickname(nickname)
                 .roleType(RoleType.USER)
                 .providerType(ProviderType.KAKAO)
                 .createdAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
                 .travelCount(0)
                 .level(1)
                 .build();

@@ -22,6 +22,10 @@ public class User {
     private Long uid;
 
     @NotNull
+    @Column(name = "UNIQUE_ID", unique = true)
+    private String uniqueId;
+
+    @NotNull
     @Size(max = 128)
     @Column(name = "EMAIL", length = 128, unique = true)
     private String email;
@@ -65,14 +69,16 @@ public class User {
 
     @Builder
     public User( // 새로운 유저가 가입하는 경우
-            @NotNull @Size(max = 128) String email, @NotNull @Size(max = 10) String nickname,
+            @NotNull @Size(max = 128) String uniqueId, String email, @NotNull @Size(max = 10) String nickname,
             @NotNull RoleType roleType, @NotNull ProviderType providerType, @NotNull LocalDateTime createdAt,
-            Integer travelCount, Integer level) {
+            @NotNull LocalDateTime modifiedAt, Integer travelCount, Integer level) {
+        this.uniqueId = uniqueId;
         this.email = email != null ? email : "NO_EMAIL";
         this.nickname = nickname;
         this.roleType = roleType;
         this.providerType = providerType;
         this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
         // @NotNull Avatar avatar
         // this.avatar = avatar;
         this.travelCount = travelCount != null ? travelCount : 0;
