@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
-public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+public class JWTAccessDeniedHandler implements AccessDeniedHandler {
 
     private final HandlerExceptionResolver handlerExceptionResolver;
 
