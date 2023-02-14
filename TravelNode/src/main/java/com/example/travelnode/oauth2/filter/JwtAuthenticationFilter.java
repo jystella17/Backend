@@ -3,7 +3,6 @@ package com.example.travelnode.oauth2.filter;
 import com.example.travelnode.oauth2.provider.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.apache.tomcat.util.http.HeaderUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
