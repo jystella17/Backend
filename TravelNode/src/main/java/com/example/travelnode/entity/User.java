@@ -3,11 +3,13 @@ package com.example.travelnode.entity;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Entity
 @Getter
@@ -95,6 +97,10 @@ public class User {
     public User(@NotNull Integer travelCount, @NotNull Integer level){ // 여행을 완료하여 여행 횟수&레벨을 변경하는 경우
         this.travelCount = travelCount;
         this.level = level;
+    }
+
+    @Builder
+    public User(String subject, String s, Collection<? extends GrantedAuthority> authorities) {
     }
 
     /**
