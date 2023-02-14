@@ -3,6 +3,10 @@ package com.example.travelnode.oauth2.entity;
 import com.example.travelnode.entity.ProviderType;
 import com.example.travelnode.entity.RoleType;
 import com.example.travelnode.entity.User;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+@Getter
 public class UserPrincipal implements OAuth2User, UserDetails {
 
     private final Long uid;
