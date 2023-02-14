@@ -13,12 +13,12 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
-public class JWTAccessDeniedHandler implements AccessDeniedHandler {
-
+public class JwtAccessDeniedHandler implements AccessDeniedHandler {
+    // 권한을 갖고있지 않은 사용자가 토큰 요청 시 403 Forbidden Error 발생
     private final HandlerExceptionResolver handlerExceptionResolver;
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        handlerExceptionResolver.resolveException(request, response, null, accessDeniedException);
+        response.sendError(HttpServletResponse.SC_FORBIDDEN);
     }
 }
