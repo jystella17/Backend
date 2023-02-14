@@ -42,10 +42,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         OAuthAttributes attributes = OAuthAttributes.of(provider, nameAttributeName, oAuth2User.getAttributes());
 
-        User isAlready = userRepository.findByEmail(attributes.getEmail()); // DB에서 찾을 수 있는 이미 가입된 유저인지
+        User isAlready = userRepository.findByUniqueId(attributes.getUniqueId()); // DB에서 찾을 수 있는 이미 가입된 유저인지
+        System.out.println(attributes.getUniqueId());
+
         if(isAlready != null) {
-            System.out.println(isAlready.getEmail());
-            System.out.println(isAlready.getNickname());
             // throw new Exception("이미 가입된 계정입니다.");
         }
         else{
