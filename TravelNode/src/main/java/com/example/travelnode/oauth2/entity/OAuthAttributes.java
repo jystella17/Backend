@@ -1,6 +1,8 @@
-package com.example.travelnode.entity;
+package com.example.travelnode.oauth2.entity;
 
-import com.example.travelnode.oauth2.handler.OAuth2AuthenticationFailureHandler;
+import com.example.travelnode.entity.ProviderType;
+import com.example.travelnode.entity.RoleType;
+import com.example.travelnode.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 

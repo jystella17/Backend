@@ -1,4 +1,4 @@
-package com.example.travelnode.service;
+package com.example.travelnode.oauth2.service;
 
 import com.example.travelnode.entity.User;
 import com.example.travelnode.repository.UserRepository;

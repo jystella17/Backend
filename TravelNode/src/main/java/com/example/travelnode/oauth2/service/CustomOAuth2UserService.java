@@ -1,23 +1,17 @@
-package com.example.travelnode.service;
+package com.example.travelnode.oauth2.service;
 
-import com.example.travelnode.dto.UserInfoDto;
-import com.example.travelnode.entity.OAuthAttributes;
+import com.example.travelnode.oauth2.entity.OAuthAttributes;
 import com.example.travelnode.entity.User;
-import com.example.travelnode.entity.UserPrincipal;
+import com.example.travelnode.oauth2.entity.UserPrincipal;
 import com.example.travelnode.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-
-import javax.servlet.http.HttpSession;
-import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
