@@ -22,7 +22,7 @@ public class Token {
 
     @NotNull
     @OneToOne
-    @JoinColumn(name = "uid", foreignKey = @ForeignKey(name = "fk_token_uid"))
+    @JoinColumn(name = "UNIQUE_ID", foreignKey = @ForeignKey(name = "fk_token_uid"))
     private User user;
 
     @NotNull

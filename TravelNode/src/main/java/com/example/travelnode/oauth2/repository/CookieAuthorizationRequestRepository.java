@@ -1,5 +1,7 @@
 package com.example.travelnode.oauth2.repository;
 
+import com.example.travelnode.oauth2.util.CookieUtil;
+import com.nimbusds.oauth2.sdk.util.StringUtils;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 
@@ -13,18 +15,38 @@ public class CookieAuthorizationRequestRepository implements AuthorizationReques
     public final static String REFRESH_TOKEN = "refresh_token";
     private final static int cookieExpireSeconds = 180;
 
+    // Authorization Request (인증 요청)을 쿠키에 저장 및 검색
     @Override
     public OAuth2AuthorizationRequest loadAuthorizationRequest(HttpServletRequest request) {
-        return null;
+        return CookieUtil.getCookie(request, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME).map(
+                cookie -> CookieUtil.deserialize(cookie, OAuth2AuthorizationRequest.class))
+                .orElse(null);
     }
 
     @Override
     public void saveAuthorizationRequest(OAuth2AuthorizationRequest authorizationRequest, HttpServletRequest request, HttpServletResponse response) {
+        if(authorizationRequest == null) {
+            CookieUtil.deleteCookie(request, response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME);
+            CookieUtil.deleteCookie(request, response, REDIRECT_URI_PARAM_COOKIE_NAME);
+        }
 
+        CookieUtil.addCookie(response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME,
+                CookieUtil.serialize(authorizationRequest), cookieExpireSeconds);
+
+        String redirectUriAfterLogin = request.getParameter(REDIRECT_URI_PARAM_COOKIE_NAME);
+
+        if(StringUtils.isNotBlank(redirectUriAfterLogin)) {
+            CookieUtil.addCookie(response, REDIRECT_URI_PARAM_COOKIE_NAME, redirectUriAfterLogin, cookieExpireSeconds);
+        }
     }
 
     @Override
     public OAuth2AuthorizationRequest removeAuthorizationRequest(HttpServletRequest request) {
-        return null;
+        return this.loadAuthorizationRequest(request);
+    }
+
+    public void removeAuthorizationRequestCookies(HttpServletRequest request, HttpServletResponse response) {
+        CookieUtil.deleteCookie(request, response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME);
+        CookieUtil.deleteCookie(request, response, REDIRECT_URI_PARAM_COOKIE_NAME);
     }
 }

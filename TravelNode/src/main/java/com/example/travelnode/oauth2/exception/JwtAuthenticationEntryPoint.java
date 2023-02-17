@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     // 인증되지 않은 사용자가 토큰 요청 시 401 Unauthorized Error 발생
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,

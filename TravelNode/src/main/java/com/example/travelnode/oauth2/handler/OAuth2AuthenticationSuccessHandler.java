@@ -1,7 +1,6 @@
 package com.example.travelnode.oauth2.handler;
 
 import com.example.travelnode.oauth2.provider.JwtTokenProvider;
-import com.example.travelnode.oauth2.repository.CookieAuthorizationRequestRepository;
 import com.example.travelnode.oauth2.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -26,9 +26,8 @@ import static com.example.travelnode.oauth2.repository.CookieAuthorizationReques
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     @Value("${app.oauth2.authorizedRedirectUri}")
-    private String redirectUri;
+    private String authRedirectUri;
     private final JwtTokenProvider jwtTokenProvider;
-    private final CookieAuthorizationRequestRepository cookieAuthorizationRequestRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -53,15 +52,21 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             throw new IllegalArgumentException("Unauthorized Redirect URI");
         }
 
-        String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
+        String targetUrl = redirectUri.orElse(getDefaultTargetUrl()) + "api/v1/login/token/";
         String accessToken = jwtTokenProvider.createAccessToken(authentication);
+        try {
+            jwtTokenProvider.createRefreshToken(authentication, response, accessToken);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
-        return null;
+        return UriComponentsBuilder.fromUriString(targetUrl).queryParam("accessToken", accessToken)
+                .build().toUriString();
     }
 
     private boolean isAuthorizedRedirectUri(String uri) {
         URI clientRedirectUri = URI.create(uri);
-        URI authorizedUri = URI.create(redirectUri);
+        URI authorizedUri = URI.create(authRedirectUri);
 
         return authorizedUri.getHost().equalsIgnoreCase(clientRedirectUri.getHost())
                 && authorizedUri.getPort() == clientRedirectUri.getPort();
