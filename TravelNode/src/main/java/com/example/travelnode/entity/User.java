@@ -8,10 +8,11 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @DynamicInsert
 @Table(name = "USER")
 public class User {
@@ -91,10 +92,23 @@ public class User {
         this.level = level;
     }
 
+
+
     /**
      @Builder
      public User(@NotNull Avatar avatar){ // 아바타를 변경하는 경우
      this.avatar = avatar;
      }
      **/
+
+    public String getRoleKey() {
+        return this.roleType.getKey();
+    }
+
+
+    public User update(String name, String provider) {
+        this.email = email;
+        this.providerType = providerType;
+        return this;
+    }
 }
