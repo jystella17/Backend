@@ -105,6 +105,8 @@ public class JwtTokenProvider { // 유효한 JWT Token 생성
         Token refresh = Token.builder().accessToken(accessToken)
                 .user(targetUser).refreshToken(refreshToken).build();
 
+        Token token = tokenRepository.findByUniqueId(uniqueId);
+        tokenRepository.delete(token);
         tokenRepository.save(refresh);
     }
 
