@@ -7,15 +7,15 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
-@Table(name = "COMMENT")
-public class Comment {
+@Table(name = "KEYWORD_LIST")
+public class KeywordList {
 
     @Id
-    @Column(name = "COMMENT_ID")
+    @Column(name = "KEY_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long commentId;
+    private Long keyId;
 
     @NotNull
-    @Column(name = "COMMENT_TEXT")
-    private String commentText;
+    @Column(name = "KEYWORD")
+    private String keyword;
 }
