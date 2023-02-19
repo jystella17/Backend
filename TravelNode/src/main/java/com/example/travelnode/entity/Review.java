@@ -1,9 +1,13 @@
 package com.example.travelnode.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,6 +33,7 @@ public class Review {
     @Column(name = "REVIEW_TEXT")
     private String reviewText;
 
-    @Column(name = "REVIEW_IMGS")
-    private String reviewImgs;
+    @JsonIgnore
+    @OneToOne(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private Image image;
 }
