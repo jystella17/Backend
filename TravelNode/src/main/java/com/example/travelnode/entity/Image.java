@@ -20,6 +20,11 @@ public class Image {
     private Long imgId;
 
     @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "reviewId")
+    private Review review;
+
+    @JsonIgnore
     @Column(name = "IMG_NAME")
     private String imgName;
 

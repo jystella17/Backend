@@ -19,6 +19,8 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
 
+    @ManyToOne
+    @JoinColumn(name = "UID", foreignKey = @ForeignKey(name = "fk_review_user"))
     private User user;
 
     @NotNull
@@ -34,6 +36,10 @@ public class Review {
     private String reviewText;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private Image image;
+    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Image> reviewImages;
+
+    public void setReviewImages(List<Image> reviewImages) {
+        this.reviewImages = reviewImages;
+    }
 }

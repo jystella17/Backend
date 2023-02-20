@@ -30,17 +30,17 @@ public class Route {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "CITY_NAME", foreignKey = @ForeignKey(name = "fk_route_city"))
+    @JoinColumn(name = "CITY_ID", foreignKey = @ForeignKey(name = "fk_route_city"))
     private City city;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "KEYWORD", foreignKey = @ForeignKey(name = "fk_route_keyword1"))
+    @JoinColumn(name = "KEY_ID1", foreignKey = @ForeignKey(name = "fk_route_keyword1"))
     private KeywordList keyword1;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "KEYWORD", foreignKey = @ForeignKey(name = "fk_route_keyword2"))
+    @JoinColumn(name = "KEY_ID2", foreignKey = @ForeignKey(name = "fk_route_keyword2"))
     private KeywordList keyword2;
 
     @NotNull
@@ -64,4 +64,12 @@ public class Route {
     @ColumnDefault("false")
     @Column(name = "IS_FINISHED")
     private Boolean isFinished;
+
+    public void addScrap() {
+        this.scrapCount++;
+    }
+
+    public void subScrap() {
+        this.scrapCount--;
+    }
 }

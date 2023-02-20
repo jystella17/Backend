@@ -18,7 +18,7 @@ public class RoutePlace {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "SPOT_NAME", foreignKey = @ForeignKey(name = "fk_place_spot"))
+    @JoinColumn(name = "SPOT_ID", foreignKey = @ForeignKey(name = "fk_place_spot"))
     private SpotInfo spot;
 
     @NotNull

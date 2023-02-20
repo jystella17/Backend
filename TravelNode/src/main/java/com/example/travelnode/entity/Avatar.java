@@ -27,19 +27,8 @@ public class Avatar {
     @Column(name = "AVATAR_NAME", length = 10)
     private String avatarName;
 
-    @JsonProperty
-    @NotNull
-    @Column(name = "AVATAR_IMG_URL")
-    private String avatarImgUrl;
-
-    @JsonIgnore
-    @OneToOne(mappedBy = "avatar", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private Image image;
-
     @Builder
-    public Avatar(@NotNull @Size(max = 10) String avatarName,
-                  @NotNull String avatarImgUrl){ // 새로운 아바타 등록
+    public Avatar(@NotNull @Size(max = 10) String avatarName){ // 새로운 아바타 등록
         this.avatarName = avatarName;
-        this.avatarImgUrl = avatarImgUrl != null ? avatarImgUrl : "";
     }
 }

@@ -27,21 +27,8 @@ public class PreferenceList {
     @Column(name = "DESCRIPTION", length = 30)
     private String description;
 
-    @NotNull
-    @JsonProperty
-    @Column(name = "PREFER_IMG_URL")
-    private String preferImgUrl;
-
-    @JsonIgnore
-    @OneToOne(mappedBy = "preferenceList", fetch = FetchType.LAZY,
-            cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private Image image;
-
-
     @Builder
-    public PreferenceList(@NotNull @Size(max = 30) String description,
-                          @NotNull String preferImgUrl){ // 새로운 여행 타입 등록
+    public PreferenceList(@NotNull @Size(max = 30) String description){ // 새로운 여행 타입 등록
         this.description = description;
-        this.preferImgUrl = preferImgUrl != null ? preferImgUrl : "";
     }
 }
