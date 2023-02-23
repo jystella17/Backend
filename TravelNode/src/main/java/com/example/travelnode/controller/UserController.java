@@ -1,6 +1,7 @@
 package com.example.travelnode.controller;
 
 import com.example.travelnode.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
