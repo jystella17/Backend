@@ -3,16 +3,17 @@ package com.example.travelnode.entity;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.Collection;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
 @Table(name = "USER")
 public class User {
@@ -21,6 +22,10 @@ public class User {
     @Column(name = "UID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long uid;
+
+    @NotNull
+    @Column(name = "UNIQUE_ID", unique = true)
+    private String uniqueId;
 
     @NotNull
     @Size(max = 128)
@@ -51,7 +56,7 @@ public class User {
 
     // @NotNull
     @ManyToOne
-    @JoinColumn(name = "avatarId", foreignKey = @ForeignKey(name = "fk_user_avatarId"))
+    @JoinColumn(name = "AVATAR_ID", foreignKey = @ForeignKey(name = "fk_user_avatarId"))
     private Avatar avatar;
 
     @NotNull
@@ -66,14 +71,16 @@ public class User {
 
     @Builder
     public User( // 새로운 유저가 가입하는 경우
-                 @NotNull @Size(max = 128) String email, @NotNull @Size(max = 10) String nickname,
+                 @NotNull @Size(max = 128) String uniqueId, String email, @NotNull @Size(max = 10) String nickname,
                  @NotNull RoleType roleType, @NotNull ProviderType providerType, @NotNull LocalDateTime createdAt,
-                 Integer travelCount, Integer level) {
+                 @NotNull LocalDateTime modifiedAt, Integer travelCount, Integer level) {
+        this.uniqueId = uniqueId;
         this.email = email != null ? email : "NO_EMAIL";
         this.nickname = nickname;
         this.roleType = roleType;
         this.providerType = providerType;
         this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
         // @NotNull Avatar avatar
         // this.avatar = avatar;
         this.travelCount = travelCount != null ? travelCount : 0;
@@ -92,7 +99,9 @@ public class User {
         this.level = level;
     }
 
-
+    @Builder
+    public User(String subject, String s, Collection<? extends GrantedAuthority> authorities) {
+    }
 
     /**
      @Builder
@@ -100,15 +109,4 @@ public class User {
      this.avatar = avatar;
      }
      **/
-
-    public String getRoleKey() {
-        return this.roleType.getKey();
-    }
-
-
-    public User update(String name, String provider) {
-        this.email = email;
-        this.providerType = providerType;
-        return this;
-    }
 }

@@ -3,6 +3,7 @@
 package com.example.travelnode.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -74,4 +75,11 @@ public class Route {
     public void subScrap() {
         this.scrapCount--;
     }
+
+    @Builder
+    public Route(City city) {
+        //this.user = user; 유저 정보 필요 없음
+        this.city = city;
+    }
+
 }

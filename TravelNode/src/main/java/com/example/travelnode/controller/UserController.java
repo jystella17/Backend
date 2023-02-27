@@ -1,26 +1,28 @@
+
+
 package com.example.travelnode.controller;
 
-import com.example.travelnode.service.UserService;
+import com.example.travelnode.oauth2.entity.UserPrincipal;
+import com.example.travelnode.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/v1/users")
+@RequiredArgsConstructor
 public class UserController {
+    private UserRepository userRepository;
 
-    private final UserService service;
+    @GetMapping("/oauth2/login-info")
+    public UserPrincipal oauth2Login(@AuthenticationPrincipal UserPrincipal userPrincipal) throws Exception {
 
-    public UserController(UserService service) {
-        this.service = service;
+        if(userPrincipal == null){
+            throw new Exception("Empty Principal");
+        }
+
+        return userPrincipal;
     }
-
-    @PostMapping("/login")
-    public ResponseEntity<String> loginSuccess(@RequestBody Map<String, String> loginForm) {
-        String token = service.login(loginForm.get("username"), loginForm.get("password"));
-        return ResponseEntity.ok(token);
-    }
-
 }

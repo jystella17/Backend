@@ -1,12 +1,8 @@
 package com.example.travelnode.entity;
 
-import com.example.travelnode.oauth2.handler.OAuth2AuthenticationFailureHandler;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.web.client.HttpClientErrorException;
 
-import javax.servlet.ServletException;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Map;
 
