@@ -3,19 +3,21 @@ package com.example.travelnode.controller;
 import com.example.travelnode.dto.CityCreateRequestDto;
 import com.example.travelnode.service.RouteService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/route")
+@RequestMapping("/api/route")
 @RequiredArgsConstructor
 public class RouteController {
 
-    private final RouteService routeService;
-    @PostMapping("/city")    // 지역 선택
+    @Autowired
+    private RouteService routeService;
+
+    @PostMapping("/createcity")
     public Long createcity(@RequestBody CityCreateRequestDto requestDto){
+
         return routeService.createcity(requestDto);
     }
+
 }

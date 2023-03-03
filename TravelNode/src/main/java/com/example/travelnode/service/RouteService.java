@@ -3,34 +3,31 @@ package com.example.travelnode.service;
 import com.example.travelnode.dto.CityCreateRequestDto;
 import com.example.travelnode.entity.City;
 import com.example.travelnode.entity.Route;
-import com.example.travelnode.entity.User;
 import com.example.travelnode.repository.CityRepository;
 import com.example.travelnode.repository.RouteRepository;
-import com.example.travelnode.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class RouteService {
 
+    private final CityRepository cityRepository;
     private final RouteRepository routeRepository;
 
-    private final CityRepository cityRepository;
-
-    //private final UserRepository userRepository;
-
-    @Transactional  // 지역 선택
-    public Long createcity(CityCreateRequestDto requestDto){
+    // city Dto 받아서 city저장 후 -> route에 저장하기
+    @Transactional
+    public Long createcity(CityCreateRequestDto requestDto) {
         Optional<City> city = cityRepository.findById(requestDto.getCityId());
-        // Optional<User> user = userRepository.findById(requestDto.getUid());
         Route route = Route.builder()
                 .city(city.orElseThrow())
                 .build();
         return routeRepository.save(route).getRouteId();
-
     }
+
+    // city Id 받아서 -> city DB에 저장된 city 가져옴 -> route에 저장하기
+
 }

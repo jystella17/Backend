@@ -26,7 +26,7 @@ public class Route {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long routeId;
 
-    @NotNull
+    //@NotNull
     @ManyToOne
     @JoinColumn(name = "UID", foreignKey = @ForeignKey(name = "fk_route_uid"))
     private User user;
@@ -36,27 +36,27 @@ public class Route {
     @JoinColumn(name = "CITY_ID", foreignKey = @ForeignKey(name = "fk_route_city"))
     private City city;
 
-    @NotNull
+    //@NotNull
     @ManyToOne
     @JoinColumn(name = "KEY_ID1", foreignKey = @ForeignKey(name = "fk_route_keyword1"))
     private KeywordList keyword1;
 
-    @NotNull
+    //@NotNull
     @ManyToOne
     @JoinColumn(name = "KEY_ID2", foreignKey = @ForeignKey(name = "fk_route_keyword2"))
     private KeywordList keyword2;
 
-    @NotNull
+    //@NotNull
     @Size(max = 128)
     @Column(name = "ROUTE_NAME", length = 128)
     private String routeName;
 
-    @NotNull
+    //@NotNull
     @ColumnDefault("0")
     @Column(name = "SCRAP_COUNT")
     private Integer scrapCount;
 
-    @NotNull
+    //@NotNull
     @Column(name = "ROUTE_DAY")
     private Date routeDay;
 

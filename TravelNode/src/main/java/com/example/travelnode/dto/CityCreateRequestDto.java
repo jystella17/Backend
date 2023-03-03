@@ -1,10 +1,14 @@
 package com.example.travelnode.dto;
 
-import lombok.Data;
+import com.example.travelnode.entity.City;
+import lombok.*;
 
-@Data
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CityCreateRequestDto {
 
     private Long cityId;
+
 
 }
