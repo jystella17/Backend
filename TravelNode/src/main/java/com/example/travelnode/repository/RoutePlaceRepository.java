@@ -1,4 +1,19 @@
 package com.example.travelnode.repository;
 
-public interface RoutePlaceRepository {
+import com.example.travelnode.entity.RoutePlace;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
+
+public interface RoutePlaceRepository extends JpaRepository<RoutePlace, Long>, JpaSpecificationExecutor<RoutePlace> {
+
+    @Query("SELECT rp FROM RoutePlace rp WHERE rp.spot.spotName = ?1")
+    RoutePlace findBySpotName(String placeName);
+
+    RoutePlace findByRouteNameAndPriority(String routeName, Integer priority);
+
+    @Query("SELECT rp FROM RoutePlace rp WHERE rp.routeName = ?1 ORDER BY rp.priority")
+    List<RoutePlace> findAllByRouteName(String routeName);
 }
