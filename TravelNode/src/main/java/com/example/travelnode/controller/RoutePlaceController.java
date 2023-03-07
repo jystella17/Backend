@@ -1,7 +1,6 @@
 package com.example.travelnode.controller;
 
 import com.example.travelnode.dto.PlaceRegisterRequestDto;
-import com.example.travelnode.dto.RoutePlaceDto;
 import com.example.travelnode.dto.SpotInfoDto;
 import com.example.travelnode.entity.RoutePlace;
 import com.example.travelnode.service.RoutePlaceService;
@@ -17,6 +16,7 @@ import java.util.*;
 public class RoutePlaceController {
 
     private final RoutePlaceService routePlaceService;
+
     @GetMapping("/details")
     // 사용자가 입력한 장소 이름을 기준으로
     public List<SpotInfoDto> placeDetails(@RequestParam String loc, @RequestParam Double longitude,
