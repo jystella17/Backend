@@ -57,7 +57,7 @@ public class Route {
     @Column(name = "SCRAP_COUNT")
     private Integer scrapCount;
 
-    @NotNull
+    // @NotNull
     @Column(name = "ROUTE_DAY")
     private Date routeDay;
 
