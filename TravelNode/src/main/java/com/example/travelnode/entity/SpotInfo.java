@@ -39,4 +39,8 @@ public class SpotInfo {
         this.longitude = longitude;
         this.latitude = latitude;
     }
+
+    public void update(String spotName) {
+        this.spotName = spotName;
+    }
 }
