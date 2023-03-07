@@ -3,8 +3,8 @@
 **/test.properties
 
 # Extra files
-**/.idea
-**/.gradle
-**/build
-**/out
+**/.idea/**
+**/.gradle/**
+**/build/**
+**/out/**
 **/**.xml
