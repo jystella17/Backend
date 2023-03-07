@@ -84,6 +84,7 @@ public class User {
             @NotNull @Size(max = 128) String uniqueId, String email, @NotNull @Size(max = 10) String nickname,
             @NotNull RoleType roleType, @NotNull ProviderType providerType, @NotNull LocalDateTime createdAt,
             @NotNull LocalDateTime modifiedAt, Integer travelCount, Integer level, List<UserPreference> prefer_list) {
+
         this.uniqueId = uniqueId;
         this.email = email != null ? email : "NO_EMAIL";
         this.nickname = nickname;
@@ -92,7 +93,7 @@ public class User {
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
         // @NotNull Avatar avatar
-        // this.avatar = avatar;\
+        // this.avatar = avatar;
         this.prefer_list = prefer_list;
         this.travelCount = travelCount != null ? travelCount : 0;
         this.level = level != null ? level : 1;
@@ -109,11 +110,4 @@ public class User {
         this.travelCount = travelCount;
         this.level = level;
     }
-
-    /**
-    @Builder
-    public User(@NotNull Avatar avatar){ // 아바타를 변경하는 경우
-        this.avatar = avatar;
-    }
-    **/
 }
