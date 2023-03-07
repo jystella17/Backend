@@ -6,7 +6,6 @@ import com.example.travelnode.dto.SpotInfoDto;
 import com.example.travelnode.entity.RoutePlace;
 import com.example.travelnode.entity.SpotInfo;
 import com.example.travelnode.repository.RoutePlaceRepository;
-import com.example.travelnode.repository.RouteRepository;
 import com.example.travelnode.repository.SpotInfoRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -33,7 +32,6 @@ public class RoutePlaceService {
     @Value("${app.kakao.rest-api-key}")
     private String kakaoApiKey;
     private final SpotInfoRepository spotInfoRepository;
-    private final RouteRepository routeRepository;
     private final RoutePlaceRepository routePlaceRepository;
 
     public List<SpotInfoDto> keywordToLocationInfo(String loc, Double longitude, Double latitude) throws ParseException {
