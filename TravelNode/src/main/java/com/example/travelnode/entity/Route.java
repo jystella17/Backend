@@ -47,12 +47,12 @@ public class Route {
     @JoinColumn(name = "KEY_ID2", foreignKey = @ForeignKey(name = "fk_route_keyword2"))
     private KeywordList keyword2;
 
-    @NotNull
+    // @NotNull
     @Size(max = 128)
     @Column(name = "ROUTE_NAME", length = 128)
     private String routeName;
 
-    @NotNull
+    // @NotNull
     @ColumnDefault("0")
     @Column(name = "SCRAP_COUNT")
     private Integer scrapCount;
