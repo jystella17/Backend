@@ -1,8 +1,5 @@
 package com.example.travelnode.entity;
 
-import com.example.travelnode.entity.City;
-import com.example.travelnode.entity.KeywordList;
-import com.example.travelnode.entity.User;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -52,12 +49,10 @@ public class Route {
     @Column(name = "ROUTE_NAME", length = 128)
     private String routeName;
 
-    // @NotNull
     @ColumnDefault("0")
     @Column(name = "SCRAP_COUNT")
     private Integer scrapCount;
 
-    // @NotNull
     @Column(name = "ROUTE_DAY")
     private Date routeDay;
 
