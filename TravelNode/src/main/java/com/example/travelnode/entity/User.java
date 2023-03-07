@@ -9,7 +9,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
@@ -54,10 +56,17 @@ public class User {
     @Column(name = "MODIFIED_AT")
     private LocalDateTime modifiedAt;
 
-    // @NotNull
-    @ManyToOne
-    @JoinColumn(name = "AVATAR_ID", foreignKey = @ForeignKey(name = "fk_user_avatarId"))
-    private Avatar avatar;
+//    // @NotNull
+//    @ManyToOne
+//    @JoinColumn(name = "AVATAR_ID") // foreignKey = @ForeignKey(name = "fk_user_avatarId")
+//    private Avatar avatar;
+
+    // 여행 성향
+    @OneToMany(mappedBy = "user")
+    private List<UserPreference> prefer_list = new ArrayList<>();
+    public void addPrefer(UserPreference up){
+        this.prefer_list.add(up);
+    }
 
     @NotNull
     @ColumnDefault("0")
@@ -69,11 +78,12 @@ public class User {
     @Column(name = "LEVEL")
     private Integer level;
 
+    // 여행 성향 추가
     @Builder
     public User( // 새로운 유저가 가입하는 경우
             @NotNull @Size(max = 128) String uniqueId, String email, @NotNull @Size(max = 10) String nickname,
             @NotNull RoleType roleType, @NotNull ProviderType providerType, @NotNull LocalDateTime createdAt,
-            @NotNull LocalDateTime modifiedAt, Integer travelCount, Integer level) {
+            @NotNull LocalDateTime modifiedAt, Integer travelCount, Integer level, List<UserPreference> prefer_list) {
         this.uniqueId = uniqueId;
         this.email = email != null ? email : "NO_EMAIL";
         this.nickname = nickname;
@@ -82,7 +92,8 @@ public class User {
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
         // @NotNull Avatar avatar
-        // this.avatar = avatar;
+        // this.avatar = avatar;\
+        this.prefer_list = prefer_list;
         this.travelCount = travelCount != null ? travelCount : 0;
         this.level = level != null ? level : 1;
     }
@@ -97,10 +108,6 @@ public class User {
     public User(@NotNull Integer travelCount, @NotNull Integer level){ // 여행을 완료하여 여행 횟수&레벨을 변경하는 경우
         this.travelCount = travelCount;
         this.level = level;
-    }
-
-    @Builder
-    public User(String subject, String s, Collection<? extends GrantedAuthority> authorities) {
     }
 
     /**

@@ -2,6 +2,7 @@ package com.example.travelnode.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,8 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Data
 @Table(name = "IMAGE")
 public class Image {
 
@@ -35,4 +35,6 @@ public class Image {
     @NotNull
     @Column(name = "IMG_URL")
     private String imgUrl;
+
+
 }

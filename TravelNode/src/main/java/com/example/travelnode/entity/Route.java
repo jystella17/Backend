@@ -1,5 +1,8 @@
 package com.example.travelnode.entity;
 
+import com.example.travelnode.entity.City;
+import com.example.travelnode.entity.KeywordList;
+import com.example.travelnode.entity.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
