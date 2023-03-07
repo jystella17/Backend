@@ -1,0 +1,10 @@
+# Application Properties
+**/application.properties
+**/test.properties
+
+# Extra files
+**/.idea
+**/.gradle
+**/build
+**/out
+**/**.xml
