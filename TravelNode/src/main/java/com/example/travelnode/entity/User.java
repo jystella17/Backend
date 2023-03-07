@@ -3,14 +3,12 @@ package com.example.travelnode.entity;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -84,7 +82,6 @@ public class User {
             @NotNull @Size(max = 128) String uniqueId, String email, @NotNull @Size(max = 10) String nickname,
             @NotNull RoleType roleType, @NotNull ProviderType providerType, @NotNull LocalDateTime createdAt,
             @NotNull LocalDateTime modifiedAt, Integer travelCount, Integer level, List<UserPreference> prefer_list) {
-
         this.uniqueId = uniqueId;
         this.email = email != null ? email : "NO_EMAIL";
         this.nickname = nickname;
@@ -93,7 +90,7 @@ public class User {
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
         // @NotNull Avatar avatar
-        // this.avatar = avatar;
+        // this.avatar = avatar;\
         this.prefer_list = prefer_list;
         this.travelCount = travelCount != null ? travelCount : 0;
         this.level = level != null ? level : 1;
