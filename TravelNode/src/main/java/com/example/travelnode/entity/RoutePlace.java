@@ -27,14 +27,9 @@ public class RoutePlace {
     private String placeName;
 
     @NotNull
-    @Column(name = "ROUTE_NAME")
-    private String routeName;
-    /**
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "ROUTE_ID", foreignKey = @ForeignKey(name = "fk_place_route"))
     private Route route;
-     **/
 
     @NotNull
     @Column(name = "PRIORITY")
@@ -44,17 +39,16 @@ public class RoutePlace {
     private LocalDateTime visitTime;
 
     @Builder
-    public RoutePlace(@NotNull SpotInfo spot, @NotNull String placeName, @NotNull String routeName, @NotNull Integer priority, LocalDateTime visitTime) {
+    public RoutePlace(@NotNull SpotInfo spot, @NotNull String placeName, @NotNull Route route, @NotNull Integer priority, LocalDateTime visitTime) {
         this.spot = spot;
         this.placeName = placeName;
-        this.routeName = routeName;
+        this.route = route;
         this.priority = priority;
         this.visitTime = visitTime != null ? visitTime : LocalDateTime.now();
     }
 
     @Builder
     public RoutePlace() {
-
     }
 
     public void update(String placeName) {

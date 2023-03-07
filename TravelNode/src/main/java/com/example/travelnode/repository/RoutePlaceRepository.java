@@ -1,5 +1,6 @@
 package com.example.travelnode.repository;
 
+import com.example.travelnode.entity.Route;
 import com.example.travelnode.entity.RoutePlace;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -12,8 +13,8 @@ public interface RoutePlaceRepository extends JpaRepository<RoutePlace, Long>, J
     @Query("SELECT rp FROM RoutePlace rp WHERE rp.spot.spotName = ?1")
     RoutePlace findBySpotName(String placeName);
 
-    RoutePlace findByRouteNameAndPriority(String routeName, Integer priority);
+    RoutePlace findByRouteAndPriority(Route route, Integer priority);
 
-    @Query("SELECT rp FROM RoutePlace rp WHERE rp.routeName = ?1 ORDER BY rp.priority")
-    List<RoutePlace> findAllByRouteName(String routeName);
+    @Query("SELECT rp FROM RoutePlace rp WHERE rp.route = ?1 ORDER BY rp.priority")
+    List<RoutePlace> findAllPlacesByRoute(Route route);
 }

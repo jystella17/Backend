@@ -3,9 +3,11 @@ package com.example.travelnode.service;
 import com.example.travelnode.dto.PlaceRegisterRequestDto;
 import com.example.travelnode.dto.RoutePlaceDto;
 import com.example.travelnode.dto.SpotInfoDto;
+import com.example.travelnode.entity.Route;
 import com.example.travelnode.entity.RoutePlace;
 import com.example.travelnode.entity.SpotInfo;
 import com.example.travelnode.repository.RoutePlaceRepository;
+import com.example.travelnode.repository.RouteRepository;
 import com.example.travelnode.repository.SpotInfoRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -32,6 +34,7 @@ public class RoutePlaceService {
     @Value("${app.kakao.rest-api-key}")
     private String kakaoApiKey;
     private final SpotInfoRepository spotInfoRepository;
+    private final RouteRepository routeRepository;
     private final RoutePlaceRepository routePlaceRepository;
 
     public List<SpotInfoDto> keywordToLocationInfo(String loc, Double longitude, Double latitude) throws ParseException {
@@ -140,14 +143,12 @@ public class RoutePlaceService {
     }
 
     @Transactional
-    public RoutePlace registerRoutePlace(PlaceRegisterRequestDto placeRegisterRequestDto) throws ParseException {
-        String routeName = placeRegisterRequestDto.getRouteName();
-        /**
+    public RoutePlace registerRoutePlace(PlaceRegisterRequestDto placeRegisterRequestDto) {
         Route route = routeRepository.findRouteByRouteName(placeRegisterRequestDto.getRouteName());
         if (route == null) {
-            throw new NullPointerException("No such route exists.");
+            throw new NullPointerException("No such Route exists.");
         }
-         **/
+
         String spotName = placeRegisterRequestDto.getSpotName();
         SpotInfo spot = spotInfoRepository.findSpotInfoBySpotName(spotName);
         if(spot == null) { // 이전에 등록된 적 없는 장소인 경우 SpotInfo 테이블에 정보 저장
@@ -157,7 +158,7 @@ public class RoutePlaceService {
             spot = spotInfoRepository.save(spotInfoDto.toEntity());
         }
 
-        RoutePlaceDto routePlaceDto = RoutePlaceDto.builder().spot(spot).placeName(spotName).routeName(routeName)
+        RoutePlaceDto routePlaceDto = RoutePlaceDto.builder().spot(spot).placeName(spotName).route(route)
                 .priority(placeRegisterRequestDto.getPriority()).visitTime(LocalDateTime.now()).build();
 
         return routePlaceRepository.save(routePlaceDto.toEntity());
@@ -186,11 +187,15 @@ public class RoutePlaceService {
 
     @Transactional
     public void deletePlace(Long placeId, String routeName, Integer priority) {
+        Route route = routeRepository.findRouteByRouteName(routeName);
+        if(route == null)
+            throw new NullPointerException("No such Route exists.");
+
         routePlaceRepository.deleteById(placeId);
 
         // 장소가 삭제된 후, 같은 루트에 포함된 다른 장소들의 priority 재설정
         for(int i=priority+1; i<=5; i++) {
-            RoutePlace routePlace = routePlaceRepository.findByRouteNameAndPriority(routeName, i);
+            RoutePlace routePlace = routePlaceRepository.findByRouteAndPriority(route, i);
             if(routePlace == null)
                 break;
 
@@ -200,6 +205,7 @@ public class RoutePlaceService {
 
     public List<RoutePlace> allPlacesInRoute(String routeName) {
 
-        return routePlaceRepository.findAllByRouteName(routeName);
+        Route route = routeRepository.findRouteByRouteName(routeName);
+        return routePlaceRepository.findAllPlacesByRoute(route);
     }
 }
