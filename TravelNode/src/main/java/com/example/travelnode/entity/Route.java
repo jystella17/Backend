@@ -3,6 +3,8 @@
 package com.example.travelnode.entity;
 
 import com.example.travelnode.dto.CityUpdateRequestDto;
+import com.example.travelnode.dto.RouteDayUpdateRequestDto;
+import com.example.travelnode.dto.RouteNameUpdateRequestDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -89,13 +91,12 @@ public class Route {
 
     }
 
-    /*
-    public void updatecity(CityUpdateRequestDto requestDto) {
-        this.city = requestDto.getCityId();
+    public void updateroutename(RouteNameUpdateRequestDto requestDto) {
+        this.routeName = requestDto.getRouteName();
     }
 
-     */
 
-
-
+    public void updaterouteday(RouteDayUpdateRequestDto requestDto) {
+        this.routeDay = requestDto.getRouteDay();
+    }
 }
