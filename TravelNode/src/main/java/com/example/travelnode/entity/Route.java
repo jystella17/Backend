@@ -2,6 +2,7 @@
 
 package com.example.travelnode.entity;
 
+import com.example.travelnode.dto.CityUpdateRequestDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -58,7 +60,7 @@ public class Route {
 
     //@NotNull
     @Column(name = "ROUTE_DAY")
-    private Date routeDay;
+    private LocalDate routeDay;
 
     @ColumnDefault("false")
     @Column(name = "IS_FOLLOWING")
@@ -77,9 +79,23 @@ public class Route {
     }
 
     @Builder
-    public Route(City city) {
+    public Route(City city, KeywordList keyword1, KeywordList keyword2, String routeName, LocalDate routeDay ) {
         //this.user = user; 유저 정보 필요 없음
         this.city = city;
+        this.keyword1 = keyword1;
+        this.keyword2 = keyword2;
+        this.routeName = routeName;
+        this.routeDay = routeDay;
+
     }
+
+    /*
+    public void updatecity(CityUpdateRequestDto requestDto) {
+        this.city = requestDto.getCityId();
+    }
+
+     */
+
+
 
 }
