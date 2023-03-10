@@ -19,7 +19,6 @@ public class RouteController {
         return routeService.createcity(requestDto);
     }
 
-
     // 루트 도시, 키워드 수정 --> 방법 더 찾아보기..
     @PatchMapping("/update/routecity/{id}")   // 루트이름 수정
     public Long updatecity(@PathVariable Long id, @RequestBody CityUpdateRequestDto requestDto) {
