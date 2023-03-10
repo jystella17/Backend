@@ -97,14 +97,18 @@ public class User {
     }
 
     @Builder
-    public User(@NotNull @Size(max = 10) String nickname, LocalDateTime modifiedAt){ // 닉네임을 변경하는 경우
+    public User(@NotNull @Size(max = 10) String nickname, LocalDateTime modifiedAt) { // 닉네임을 변경하는 경우
         this.nickname = nickname;
         this.modifiedAt = modifiedAt;
     }
 
     @Builder
-    public User(@NotNull Integer travelCount, @NotNull Integer level){ // 여행을 완료하여 여행 횟수&레벨을 변경하는 경우
+    public User(@NotNull Integer travelCount, @NotNull Integer level) { // 여행을 완료하여 여행 횟수&레벨을 변경하는 경우
         this.travelCount = travelCount;
         this.level = level;
+    }
+
+    public void changeRole(@NotNull RoleType roleType) { // 유저 권한 변경
+        this.roleType = roleType;
     }
 }
