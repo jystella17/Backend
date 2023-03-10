@@ -105,7 +105,7 @@ public class JwtTokenProvider { // 유효한 JWT Token 생성
         Token refresh = Token.builder().accessToken(accessToken)
                 .user(targetUser).refreshToken(refreshToken).build();
 
-        Token toDelete = tokenRepository.findByUniqueId(uniqueId);
+        Token toDelete = tokenRepository.findByUniqueId(targetUser.getUniqueId());
         if(toDelete != null) {
             tokenRepository.delete(toDelete); // 토큰을 새로 발급받은 경우, 기존에 있던 토큰 삭제
         }
