@@ -41,6 +41,16 @@ public class RouteService {
         return routeRepository.save(route).getRouteId();
     }
 
+    // 도시 , 키워드 수정 service
+    public Long updatecity(Long id, CityUpdateRequestDto requestDto) {
+        Route route = routeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(("해당 Route 가  존재하지 않습니다.")));
+        route.updatecity(requestDto);
+
+        routeRepository.save(route);
+        return id;
+    }
+
     @Transactional
     public Long updateroutename(Long id, RouteNameUpdateRequestDto requestDto) {
         Route route = routeRepository.findById(id)

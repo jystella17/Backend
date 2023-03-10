@@ -23,6 +23,12 @@ public class RouteController {
     }
 
 
+    // 루트 도시, 키워드 수정 --> 방법 더 찾아보기..
+    @PatchMapping("/update/routecity/{id}")   // 루트이름 수정
+    public Long updatecity(@PathVariable Long id, @RequestBody CityUpdateRequestDto requestDto) {
+        return routeService.updatecity(id, requestDto);
+    }
+
     @PatchMapping("/update/routename/{id}")   // 루트이름 수정
     public Long updatename(@PathVariable Long id, @RequestBody RouteNameUpdateRequestDto requestDto) {
         return routeService.updateroutename(id, requestDto);
@@ -33,7 +39,7 @@ public class RouteController {
         return routeService.updaterouteday(id, requestDto);
     }
 
-    @DeleteMapping("delete/route/{id}")
+    @DeleteMapping("delete/route/{id}") // 루트 전체 삭제
     public void deleteroute(@PathVariable Long id){
         routeService.deleteroute(id);
     }

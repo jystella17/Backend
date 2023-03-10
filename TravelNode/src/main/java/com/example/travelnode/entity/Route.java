@@ -91,12 +91,17 @@ public class Route {
 
     }
 
-    public void updateroutename(RouteNameUpdateRequestDto requestDto) {
-        this.routeName = requestDto.getRouteName();
+    // 도시, 키워드 수정 부분 --> 엔티티라 this.city = dto.getCityId(); 가 안됨...
+    public void updatecity(CityUpdateRequestDto dto){
+        this.city = dto.getCityId();
+    }
+
+    public void updateroutename(RouteNameUpdateRequestDto dto) {
+        this.routeName = dto.getRouteName();
     }
 
 
-    public void updaterouteday(RouteDayUpdateRequestDto requestDto) {
-        this.routeDay = requestDto.getRouteDay();
+    public void updaterouteday(RouteDayUpdateRequestDto dto) {
+        this.routeDay = dto.getRouteDay();
     }
 }
