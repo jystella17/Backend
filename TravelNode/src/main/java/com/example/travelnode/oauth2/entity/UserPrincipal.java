@@ -42,11 +42,11 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
     public static UserPrincipal create(User user) {
         List<GrantedAuthority> authorities = Collections.singletonList(
-                new SimpleGrantedAuthority(RoleType.USER.getCode()));
+                new SimpleGrantedAuthority(user.getRoleType().getCode()));
 
         return new UserPrincipal(
                 user.getUid(), user.getUniqueId(), user.getEmail(), user.getNickname(),
-                RoleType.USER, user.getProviderType(), authorities
+                user.getRoleType(), user.getProviderType(), authorities
         );
     }
 

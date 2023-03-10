@@ -5,6 +5,7 @@ import com.example.travelnode.entity.SpotInfo;
 import com.example.travelnode.repository.SpotInfoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,11 +20,13 @@ public class SpotService {
         return spotInfoRepository.findAll();
     }
 
+    @Transactional
     public SpotInfo registerSpotInfo(SpotInfoDto spotInfoDto) {
 
         return spotInfoRepository.save(spotInfoDto.toEntity());
     }
 
+    @Transactional
     public SpotInfo updateSpotName(String prevName, String spotName) {
         SpotInfo spotInfo = spotInfoRepository.findSpotInfoBySpotName(prevName);
         spotInfo.update(spotName);
@@ -31,6 +34,7 @@ public class SpotService {
         return spotInfo;
     }
 
+    @Transactional
     public void deleteSpotInfo(String spotName) {
         SpotInfo spotInfo = spotInfoRepository.findSpotInfoBySpotName(spotName);
         spotInfoRepository.delete(spotInfo);
