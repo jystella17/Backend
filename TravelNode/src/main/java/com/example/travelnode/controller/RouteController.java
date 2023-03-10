@@ -45,10 +45,4 @@ public class RouteController {
     public void deleteroute(@PathVariable Long id){
         routeService.deleteroute(id);
     }
-
-
-
-
-
-
 }

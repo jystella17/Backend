@@ -24,5 +24,4 @@ public class ReviewDto {
                 comment(comment).
                 reviewText(reviewText).build();
     }
-
 }

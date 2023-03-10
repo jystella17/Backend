@@ -86,6 +86,4 @@ public class RouteService {
                 .orElseThrow(() -> new IllegalArgumentException(("해당 Route 가  존재하지 않습니다.")));
         routeRepository.delete(route);
     }
-
-
 }
