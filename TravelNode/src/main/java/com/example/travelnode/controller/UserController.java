@@ -1,5 +1,3 @@
-
-
 package com.example.travelnode.controller;
 
 import com.example.travelnode.oauth2.entity.UserPrincipal;
@@ -24,5 +22,11 @@ public class UserController {
         }
 
         return userPrincipal;
+    }
+
+    // 시작시 테스트용
+    @GetMapping("/show")
+    public String showStart(){
+        return "Success";
     }
 }

@@ -2,6 +2,7 @@
 
 package com.example.travelnode.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -24,6 +25,10 @@ public class RoutePlace {
     private SpotInfo spot;
 
     @NotNull
+    @Column(name = "PLACE_NAME")
+    private String placeName;
+
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "ROUTE_ID", foreignKey = @ForeignKey(name = "fk_place_route"))
     private Route route;
@@ -34,4 +39,25 @@ public class RoutePlace {
 
     @Column(name = "VISIT_TIME")
     private LocalDateTime visitTime;
+
+    @Builder
+    public RoutePlace(@NotNull SpotInfo spot, @NotNull String placeName, @NotNull Route route, @NotNull Integer priority, LocalDateTime visitTime) {
+        this.spot = spot;
+        this.placeName = placeName;
+        this.route = route;
+        this.priority = priority;
+        this.visitTime = visitTime != null ? visitTime : LocalDateTime.now();
+    }
+
+    @Builder
+    public RoutePlace() {
+    }
+
+    public void update(String placeName) {
+        this.placeName = placeName;
+    }
+
+    public void changePriority(Integer priority) {
+        this.priority = priority;
+    }
 }

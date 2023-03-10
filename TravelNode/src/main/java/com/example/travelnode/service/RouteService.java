@@ -39,7 +39,7 @@ public class RouteService {
     }
 
     // 도시 , 키워드 수정 service
-    public Long updatecity(Long id, CityUpdateRequestDto requestDto) {
+    public Long updatecity(Long id, com.example.travelnode.dto.CityUpdateRequestDto requestDto) {
         Route route = routeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(("해당 Route 가  존재하지 않습니다.")));
         Optional<City> city = cityRepository.findById(requestDto.getCityId());
@@ -49,7 +49,7 @@ public class RouteService {
         return id;
     }
 
-    public Long updatekeyword(Long id, KeywordUpdateRequestDto requestDto) {
+    public Long updatekeyword(Long id, com.example.travelnode.dto.KeywordUpdateRequestDto requestDto) {
         Route route = routeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 Route 가 존재하지 않습니다."));
         Optional<KeywordList> keyword1 = keywordRepository.findById(requestDto.getKeyword1());
@@ -62,7 +62,7 @@ public class RouteService {
     }
 
     @Transactional
-    public Long updateroutename(Long id, RouteNameUpdateRequestDto requestDto) {
+    public Long updateroutename(Long id, com.example.travelnode.dto.RouteNameUpdateRequestDto requestDto) {
         Route route = routeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(("해당 Route 가  존재하지 않습니다.")));
         route.updateroutename(requestDto);
@@ -72,7 +72,7 @@ public class RouteService {
     }
 
 
-    public Long updaterouteday(Long id, RouteDayUpdateRequestDto requestDto) {
+    public Long updaterouteday(Long id, com.example.travelnode.dto.RouteDayUpdateRequestDto requestDto) {
         Route route = routeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(("해당 Route 가  존재하지 않습니다.")));
         route.updaterouteday(requestDto);

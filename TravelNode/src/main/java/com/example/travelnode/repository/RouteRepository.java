@@ -2,8 +2,10 @@ package com.example.travelnode.repository;
 
 import com.example.travelnode.entity.Route;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
 
-@Repository
 public interface RouteRepository extends JpaRepository<Route, Long> {
+
+    @Query("SELECT r FROM Route r WHERE r.routeName = ?1")
+    Route findRouteByRouteName(String routeName);
 }

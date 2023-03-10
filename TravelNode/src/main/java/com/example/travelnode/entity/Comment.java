@@ -1,3 +1,5 @@
+
+
 package com.example.travelnode.entity;
 
 import lombok.Getter;

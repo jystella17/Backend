@@ -2,6 +2,12 @@ package com.example.travelnode.entity;
 
 import lombok.*;
 
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -9,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "CITY")
-//@Setter
+
 public class City {
 
     @Id
@@ -21,12 +27,5 @@ public class City {
     @Column(name = "CITY_NAME")
     private String cityName;
 
-
-    @Builder
-    public City(String cityName){
-
-        this.cityName = cityName;
-    }
-
-
 }
+

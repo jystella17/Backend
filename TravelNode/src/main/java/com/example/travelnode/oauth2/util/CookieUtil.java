@@ -52,4 +52,8 @@ public class CookieUtil {
         return cls.cast(SerializationUtils.deserialize(
                 Base64.getUrlDecoder().decode(cookie.getValue())));
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> dfbb0612c0f0a4bbb049e0ec2752641cd4a8cce8
