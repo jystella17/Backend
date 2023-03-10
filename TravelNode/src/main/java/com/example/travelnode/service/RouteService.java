@@ -1,9 +1,6 @@
 package com.example.travelnode.service;
 
-import com.example.travelnode.dto.RouteCreateRequestDto;
-import com.example.travelnode.dto.CityUpdateRequestDto;
-import com.example.travelnode.dto.RouteDayUpdateRequestDto;
-import com.example.travelnode.dto.RouteNameUpdateRequestDto;
+import com.example.travelnode.dto.*;
 import com.example.travelnode.entity.City;
 import com.example.travelnode.entity.KeywordList;
 import com.example.travelnode.entity.Route;
@@ -45,10 +42,23 @@ public class RouteService {
     public Long updatecity(Long id, CityUpdateRequestDto requestDto) {
         Route route = routeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(("해당 Route 가  존재하지 않습니다.")));
-        route.updatecity(requestDto);
+        Optional<City> city = cityRepository.findById(requestDto.getCityId());
+        route.updatecity(city.orElseThrow());
 
         routeRepository.save(route);
         return id;
+    }
+
+    public Long updatekeyword(Long id, KeywordUpdateRequestDto requestDto) {
+        Route route = routeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 Route 가 존재하지 않습니다."));
+        Optional<KeywordList> keyword1 = keywordRepository.findById(requestDto.getKeyword1());
+        Optional<KeywordList> keyword2 = keywordRepository.findById(requestDto.getKeyword2());
+        route.updatekeyword(keyword1.orElseThrow(), keyword2.orElseThrow());
+
+        routeRepository.save(route);
+        return id;
+
     }
 
     @Transactional
@@ -76,4 +86,6 @@ public class RouteService {
                 .orElseThrow(() -> new IllegalArgumentException(("해당 Route 가  존재하지 않습니다.")));
         routeRepository.delete(route);
     }
+
+
 }

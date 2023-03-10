@@ -1,9 +1,6 @@
 package com.example.travelnode.controller;
 
-import com.example.travelnode.dto.RouteCreateRequestDto;
-import com.example.travelnode.dto.CityUpdateRequestDto;
-import com.example.travelnode.dto.RouteDayUpdateRequestDto;
-import com.example.travelnode.dto.RouteNameUpdateRequestDto;
+import com.example.travelnode.dto.*;
 import com.example.travelnode.service.RouteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +24,11 @@ public class RouteController {
     @PatchMapping("/update/routecity/{id}")   // 루트이름 수정
     public Long updatecity(@PathVariable Long id, @RequestBody CityUpdateRequestDto requestDto) {
         return routeService.updatecity(id, requestDto);
+    }
+
+    @PatchMapping("/update/routekeyword/{id}")   // 루트이름 수정
+    public Long updatekeyword(@PathVariable Long id, @RequestBody KeywordUpdateRequestDto requestDto) {
+        return routeService.updatekeyword(id, requestDto);
     }
 
     @PatchMapping("/update/routename/{id}")   // 루트이름 수정

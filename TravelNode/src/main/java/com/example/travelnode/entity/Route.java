@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -92,8 +93,8 @@ public class Route {
     }
 
     // 도시, 키워드 수정 부분 --> 엔티티라 this.city = dto.getCityId(); 가 안됨...
-    public void updatecity(CityUpdateRequestDto dto){
-        this.city = dto.getCityId();
+    public void updatecity(City city){
+        this.city = city;
     }
 
     public void updateroutename(RouteNameUpdateRequestDto dto) {
@@ -103,5 +104,10 @@ public class Route {
 
     public void updaterouteday(RouteDayUpdateRequestDto dto) {
         this.routeDay = dto.getRouteDay();
+    }
+
+    public void updatekeyword(KeywordList keyword1, KeywordList keyword2) {
+        this.keyword1 = keyword1;
+        this.keyword2 = keyword2;
     }
 }
