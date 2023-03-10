@@ -1,8 +1,5 @@
-
-
 package com.example.travelnode.entity;
 
-import com.example.travelnode.dto.CityUpdateRequestDto;
 import com.example.travelnode.dto.RouteDayUpdateRequestDto;
 import com.example.travelnode.dto.RouteNameUpdateRequestDto;
 import lombok.AccessLevel;
@@ -15,9 +12,7 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.sql.Date;
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Entity
 @Getter
@@ -89,7 +84,6 @@ public class Route {
         this.keyword2 = keyword2;
         this.routeName = routeName;
         this.routeDay = routeDay;
-
     }
 
     // 도시, 키워드 수정 부분 --> 엔티티라 this.city = dto.getCityId(); 가 안됨...
@@ -100,7 +94,6 @@ public class Route {
     public void updateroutename(RouteNameUpdateRequestDto dto) {
         this.routeName = dto.getRouteName();
     }
-
 
     public void updaterouteday(RouteDayUpdateRequestDto dto) {
         this.routeDay = dto.getRouteDay();

@@ -1,4 +1,3 @@
-
 package com.example.travelnode.oauth2.repository;
 
 import com.example.travelnode.entity.Token;
