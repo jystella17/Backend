@@ -8,8 +8,5 @@ public class TokenGenerationFailedException extends RuntimeException {
     private TokenGenerationFailedException(String message) {
         super(message);
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> dfbb0612c0f0a4bbb049e0ec2752641cd4a8cce8
+

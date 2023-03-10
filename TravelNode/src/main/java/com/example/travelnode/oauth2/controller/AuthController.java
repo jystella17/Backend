@@ -16,11 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-<<<<<<< HEAD
+
 //@RequestMapping("/api/v1")
-=======
+
 @RequestMapping("/api/v1")
->>>>>>> dfbb0612c0f0a4bbb049e0ec2752641cd4a8cce8
+
 @RequiredArgsConstructor
 public class AuthController<T> {
 
@@ -33,16 +33,11 @@ public class AuthController<T> {
     private final static String REFRESH_TOKEN = "refresh_token";
 
     /**
-<<<<<<< HEAD
+
      public ApiResponse<T> login(HttpServletRequest request, HttpServletResponse response) {
      return new ApiResponse<T>(new ApiResponseHeader(1));
      }
      **/
 
-=======
-    public ApiResponse<T> login(HttpServletRequest request, HttpServletResponse response) {
-        return new ApiResponse<T>(new ApiResponseHeader(1));
-    }
-    **/
->>>>>>> dfbb0612c0f0a4bbb049e0ec2752641cd4a8cce8
+
 }
