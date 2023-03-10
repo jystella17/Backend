@@ -1,11 +1,19 @@
 package com.example.travelnode.oauth2.config;
 
+<<<<<<< HEAD
+import com.example.travelnode.oauth2.handler.OAuth2AuthenticationFailureHandler;
+import com.example.travelnode.oauth2.handler.OAuth2AuthenticationSuccessHandler;
+import com.example.travelnode.oauth2.properties.CorsProperties;
+import com.example.travelnode.oauth2.filter.JwtAuthenticationFilter;
+import com.example.travelnode.oauth2.handler.JwtAccessDeniedHandler;
+=======
 import com.example.travelnode.oauth2.properties.CorsProperties;
 import com.example.travelnode.oauth2.exception.JwtAuthenticationEntryPoint;
 import com.example.travelnode.oauth2.filter.JwtAuthenticationFilter;
 import com.example.travelnode.oauth2.handler.JwtAccessDeniedHandler;
 import com.example.travelnode.oauth2.handler.OAuth2AuthenticationFailureHandler;
 import com.example.travelnode.oauth2.handler.OAuth2AuthenticationSuccessHandler;
+>>>>>>> dfbb0612c0f0a4bbb049e0ec2752641cd4a8cce8
 import com.example.travelnode.oauth2.provider.JwtTokenProvider;
 import com.example.travelnode.oauth2.repository.CookieAuthorizationRequestRepository;
 import com.example.travelnode.oauth2.service.CustomOAuth2UserService;
@@ -53,7 +61,11 @@ public class SecurityConfig {
                 .authorizeRequests()  // 인증된 유저만 접근 가능
                 // CORS Preflight Request에 대해서는 spring security를 적용하지 않음
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+<<<<<<< HEAD
+                .antMatchers("/*","/**", "/api/v1/**", "/login/oauth2/**").permitAll()
+=======
                 .antMatchers("/**", "/api/v1/**", "/login/oauth2/**").permitAll()
+>>>>>>> dfbb0612c0f0a4bbb049e0ec2752641cd4a8cce8
                 // 로그인 URL과 Home URL에는 모든 사용자가 접근 가능
                 .antMatchers(HttpMethod.POST, "/api/**")
                 .hasAnyRole("USER", "ADMIN")
@@ -108,4 +120,8 @@ public class SecurityConfig {
 
         return corsConfigurationSource;
     }
+<<<<<<< HEAD
+
+=======
+>>>>>>> dfbb0612c0f0a4bbb049e0ec2752641cd4a8cce8
 }

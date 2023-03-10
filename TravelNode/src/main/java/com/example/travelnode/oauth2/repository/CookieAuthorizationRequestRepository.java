@@ -19,7 +19,11 @@ public class CookieAuthorizationRequestRepository implements AuthorizationReques
     @Override
     public OAuth2AuthorizationRequest loadAuthorizationRequest(HttpServletRequest request) {
         return CookieUtil.getCookie(request, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME).map(
+<<<<<<< HEAD
+                        cookie -> CookieUtil.deserialize(cookie, OAuth2AuthorizationRequest.class))
+=======
                 cookie -> CookieUtil.deserialize(cookie, OAuth2AuthorizationRequest.class))
+>>>>>>> dfbb0612c0f0a4bbb049e0ec2752641cd4a8cce8
                 .orElse(null);
     }
 

@@ -79,9 +79,9 @@ public class User {
     // 여행 성향 추가
     @Builder
     public User( // 새로운 유저가 가입하는 경우
-            @NotNull @Size(max = 128) String uniqueId, String email, @NotNull @Size(max = 10) String nickname,
-            @NotNull RoleType roleType, @NotNull ProviderType providerType, @NotNull LocalDateTime createdAt,
-            @NotNull LocalDateTime modifiedAt, Integer travelCount, Integer level, List<UserPreference> prefer_list) {
+                 @NotNull @Size(max = 128) String uniqueId, String email, @NotNull @Size(max = 10) String nickname,
+                 @NotNull RoleType roleType, @NotNull ProviderType providerType, @NotNull LocalDateTime createdAt,
+                 @NotNull LocalDateTime modifiedAt, Integer travelCount, Integer level, List<UserPreference> prefer_list) {
         this.uniqueId = uniqueId;
         this.email = email != null ? email : "NO_EMAIL";
         this.nickname = nickname;

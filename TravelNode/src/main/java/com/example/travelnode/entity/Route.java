@@ -1,5 +1,10 @@
+
+
 package com.example.travelnode.entity;
 
+import com.example.travelnode.dto.CityUpdateRequestDto;
+import com.example.travelnode.dto.RouteDayUpdateRequestDto;
+import com.example.travelnode.dto.RouteNameUpdateRequestDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,6 +16,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -24,7 +31,7 @@ public class Route {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long routeId;
 
-    // @NotNull
+    //@NotNull
     @ManyToOne
     @JoinColumn(name = "UID", foreignKey = @ForeignKey(name = "fk_route_uid"))
     private User user;
@@ -34,27 +41,29 @@ public class Route {
     @JoinColumn(name = "CITY_ID", foreignKey = @ForeignKey(name = "fk_route_city"))
     private City city;
 
-    // @NotNull
+    //@NotNull
     @ManyToOne
     @JoinColumn(name = "KEY_ID1", foreignKey = @ForeignKey(name = "fk_route_keyword1"))
     private KeywordList keyword1;
 
-    // @NotNull
+    //@NotNull
     @ManyToOne
     @JoinColumn(name = "KEY_ID2", foreignKey = @ForeignKey(name = "fk_route_keyword2"))
     private KeywordList keyword2;
 
-    // @NotNull
+    //@NotNull
     @Size(max = 128)
     @Column(name = "ROUTE_NAME", length = 128)
     private String routeName;
 
+    //@NotNull
     @ColumnDefault("0")
     @Column(name = "SCRAP_COUNT")
     private Integer scrapCount;
 
+    //@NotNull
     @Column(name = "ROUTE_DAY")
-    private Date routeDay;
+    private LocalDate routeDay;
 
     @ColumnDefault("false")
     @Column(name = "IS_FOLLOWING")
@@ -73,7 +82,32 @@ public class Route {
     }
 
     @Builder
-    public Route(City city) {
+    public Route(City city, KeywordList keyword1, KeywordList keyword2, String routeName, LocalDate routeDay ) {
+        //this.user = user; 유저 정보 필요 없음
         this.city = city;
+        this.keyword1 = keyword1;
+        this.keyword2 = keyword2;
+        this.routeName = routeName;
+        this.routeDay = routeDay;
+
+    }
+
+    // 도시, 키워드 수정 부분 --> 엔티티라 this.city = dto.getCityId(); 가 안됨...
+    public void updatecity(City city){
+        this.city = city;
+    }
+
+    public void updateroutename(RouteNameUpdateRequestDto dto) {
+        this.routeName = dto.getRouteName();
+    }
+
+
+    public void updaterouteday(RouteDayUpdateRequestDto dto) {
+        this.routeDay = dto.getRouteDay();
+    }
+
+    public void updatekeyword(KeywordList keyword1, KeywordList keyword2) {
+        this.keyword1 = keyword1;
+        this.keyword2 = keyword2;
     }
 }

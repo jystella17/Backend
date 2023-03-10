@@ -1,9 +1,12 @@
 package com.example.travelnode.entity;
 
+import lombok.*;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,19 +15,17 @@ import javax.validation.constraints.NotNull;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "CITY")
+
 public class City {
 
     @Id
     @Column(name = "CITY_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cityId;
+    private Long id;
 
-    @NotNull
+    //@NotNull
     @Column(name = "CITY_NAME")
     private String cityName;
 
-    @Builder
-    public City(String cityName) {
-        this.cityName = cityName;
-    }
 }
+

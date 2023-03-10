@@ -23,8 +23,13 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     private final String nickname;
     private final RoleType roleType;
     private final ProviderType providerType;
+<<<<<<< HEAD
+    //private final String accessToken;
+    //private final String refreshToken;
+=======
     // private final String accessToken;
     // private final String refreshToken;
+>>>>>>> dfbb0612c0f0a4bbb049e0ec2752641cd4a8cce8
     private final Collection<GrantedAuthority> authorities;
     private Map<String, Object> attributes;
     private static Token token;
@@ -45,8 +50,13 @@ public class UserPrincipal implements OAuth2User, UserDetails {
                 new SimpleGrantedAuthority(RoleType.USER.getCode()));
 
         return new UserPrincipal(
+<<<<<<< HEAD
+                user.getUid(), user.getUniqueId(), user.getEmail(), user.getNickname(),
+                RoleType.USER, user.getProviderType(), authorities
+=======
             user.getUid(), user.getUniqueId(), user.getEmail(), user.getNickname(),
             RoleType.USER, user.getProviderType(), authorities
+>>>>>>> dfbb0612c0f0a4bbb049e0ec2752641cd4a8cce8
         );
     }
 
@@ -121,4 +131,8 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     public ProviderType getProviderType() {
         return providerType;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> dfbb0612c0f0a4bbb049e0ec2752641cd4a8cce8

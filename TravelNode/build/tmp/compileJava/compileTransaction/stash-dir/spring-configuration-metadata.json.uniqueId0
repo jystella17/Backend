@@ -1,0 +1,11 @@
+{
+  "groups": [
+    {
+      "name": "cors",
+      "type": "com.example.travelnode.oauth2.properties.CorsProperties",
+      "sourceType": "com.example.travelnode.oauth2.properties.CorsProperties"
+    }
+  ],
+  "properties": [],
+  "hints": []
+}
