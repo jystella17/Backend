@@ -45,11 +45,10 @@ public class UserPreferService {
     }
 
     // User 정보 받아서 -> User의 Prefer정보 get 하기
-    public List<UserPreference> findAllList(Long uid){
+    public List<UserPreference> findAllList(Long uid) {
         User user = userRepository.getReferenceById(uid);
         user.getPrefer_list();
 
         return user.getPrefer_list();
     }
-
 }

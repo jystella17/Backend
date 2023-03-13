@@ -41,7 +41,7 @@ public class RoutePlaceController {
         return routePlaceService.registerRoutePlace(placeRegisterRequestDto);
     }
 
-    @PutMapping("/change-name")
+    @PatchMapping("/change-name")
     public RoutePlace changePlaceName(@RequestParam String prevName, @RequestParam String placeName) {
 
         return routePlaceService.updatePlaceName(prevName, placeName);

@@ -1,5 +1,4 @@
 
-
 package com.example.travelnode.entity;
 
 import com.example.travelnode.dto.CityUpdateRequestDto;

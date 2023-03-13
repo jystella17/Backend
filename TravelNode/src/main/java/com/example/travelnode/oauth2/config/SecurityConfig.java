@@ -1,6 +1,5 @@
 package com.example.travelnode.oauth2.config;
 
-
 import com.example.travelnode.oauth2.handler.OAuth2AuthenticationFailureHandler;
 import com.example.travelnode.oauth2.handler.OAuth2AuthenticationSuccessHandler;
 import com.example.travelnode.oauth2.properties.CorsProperties;
@@ -120,6 +119,4 @@ public class SecurityConfig {
 
         return corsConfigurationSource;
     }
-
-
 }

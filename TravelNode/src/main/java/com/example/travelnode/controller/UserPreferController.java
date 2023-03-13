@@ -56,5 +56,4 @@ public class UserPreferController {
         user.addPrefer(dto.toEntity());
         return "updated";
     }
-
 }

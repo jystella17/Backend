@@ -16,8 +16,4 @@ public class RouteCreateRequestDto {
     private String routeName;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate routeDay;
-
-
-
-
 }
