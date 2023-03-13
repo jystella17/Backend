@@ -1,5 +1,7 @@
+
 package com.example.travelnode.entity;
 
+import com.example.travelnode.dto.CityUpdateRequestDto;
 import com.example.travelnode.dto.RouteDayUpdateRequestDto;
 import com.example.travelnode.dto.RouteNameUpdateRequestDto;
 import lombok.AccessLevel;
@@ -12,7 +14,9 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -60,6 +64,10 @@ public class Route {
     @Column(name = "ROUTE_DAY")
     private LocalDate routeDay;
 
+    //@ColumnDefault("false")
+    @Column(name = "IS_OPEN")
+    private Boolean isOpened;
+
     @ColumnDefault("false")
     @Column(name = "IS_FOLLOWING")
     private Boolean isFollowing;
@@ -77,13 +85,15 @@ public class Route {
     }
 
     @Builder
-    public Route(City city, KeywordList keyword1, KeywordList keyword2, String routeName, LocalDate routeDay ) {
+    public Route(City city, KeywordList keyword1, KeywordList keyword2, String routeName, LocalDate routeDay, boolean isOpened ) {
         //this.user = user; 유저 정보 필요 없음
         this.city = city;
         this.keyword1 = keyword1;
         this.keyword2 = keyword2;
         this.routeName = routeName;
         this.routeDay = routeDay;
+        this.isOpened = isOpened;
+
     }
 
     // 도시, 키워드 수정 부분 --> 엔티티라 this.city = dto.getCityId(); 가 안됨...
@@ -92,8 +102,10 @@ public class Route {
     }
 
     public void updateroutename(RouteNameUpdateRequestDto dto) {
+
         this.routeName = dto.getRouteName();
     }
+
 
     public void updaterouteday(RouteDayUpdateRequestDto dto) {
         this.routeDay = dto.getRouteDay();
@@ -102,5 +114,9 @@ public class Route {
     public void updatekeyword(KeywordList keyword1, KeywordList keyword2) {
         this.keyword1 = keyword1;
         this.keyword2 = keyword2;
+    }
+
+    public void updaterouteopen(boolean isOpened) {
+        this.isOpened = isOpened;
     }
 }

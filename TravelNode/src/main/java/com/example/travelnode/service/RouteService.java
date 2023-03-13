@@ -19,10 +19,15 @@ public class RouteService {
 
     private final CityRepository cityRepository;
     private final RouteRepository routeRepository;
-
     private final KeywordRepository keywordRepository;
 
 
+    @Transactional // 루트별 조회
+    public RouteResponseDto searchByRouteId(Long id) {
+        Route route = routeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(("해당 Route 가  존재하지 않습니다.")));
+        return new RouteResponseDto(route);
+    }
     @Transactional // 도시 루트에 저장
     public Long createcity(RouteCreateRequestDto requestDto) {
         Optional<City> city = cityRepository.findById(requestDto.getCityId());
@@ -38,7 +43,7 @@ public class RouteService {
         return routeRepository.save(route).getRouteId();
     }
 
-    // 도시 , 키워드 수정 service
+    @Transactional // 도시 , 키워드 수정 service
     public Long updatecity(Long id, com.example.travelnode.dto.CityUpdateRequestDto requestDto) {
         Route route = routeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(("해당 Route 가  존재하지 않습니다.")));
@@ -49,6 +54,7 @@ public class RouteService {
         return id;
     }
 
+    @Transactional
     public Long updatekeyword(Long id, com.example.travelnode.dto.KeywordUpdateRequestDto requestDto) {
         Route route = routeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 Route 가 존재하지 않습니다."));
@@ -71,7 +77,7 @@ public class RouteService {
         return id;
     }
 
-
+    @Transactional
     public Long updaterouteday(Long id, com.example.travelnode.dto.RouteDayUpdateRequestDto requestDto) {
         Route route = routeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(("해당 Route 가  존재하지 않습니다.")));
@@ -80,10 +86,21 @@ public class RouteService {
         routeRepository.save(route);
         return id;
     }
-
+    @Transactional
     public void deleteroute(Long id) {
         Route route = routeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(("해당 Route 가  존재하지 않습니다.")));
         routeRepository.delete(route);
     }
+
+    @Transactional // 루트 공개 여부
+    public Long updaterouteopen(Long id, RouteOpenUpdateRequestDto requestDto) {
+        Route route = routeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(("해당 Route 가  존재하지 않습니다.")));
+        route.updaterouteopen(requestDto.isOpen());
+        routeRepository.save(route);
+        return id;
+    }
 }
+
+
