@@ -65,6 +65,10 @@ public class Route {
     @Column(name = "ROUTE_DAY")
     private LocalDate routeDay;
 
+    //@ColumnDefault("false")
+    @Column(name = "IS_OPEN")
+    private Boolean isOpened;
+
     @ColumnDefault("false")
     @Column(name = "IS_FOLLOWING")
     private Boolean isFollowing;
@@ -82,13 +86,14 @@ public class Route {
     }
 
     @Builder
-    public Route(City city, KeywordList keyword1, KeywordList keyword2, String routeName, LocalDate routeDay ) {
+    public Route(City city, KeywordList keyword1, KeywordList keyword2, String routeName, LocalDate routeDay, boolean isOpened ) {
         //this.user = user; 유저 정보 필요 없음
         this.city = city;
         this.keyword1 = keyword1;
         this.keyword2 = keyword2;
         this.routeName = routeName;
         this.routeDay = routeDay;
+        this.isOpened = isOpened;
 
     }
 
@@ -98,6 +103,7 @@ public class Route {
     }
 
     public void updateroutename(RouteNameUpdateRequestDto dto) {
+
         this.routeName = dto.getRouteName();
     }
 
@@ -109,5 +115,9 @@ public class Route {
     public void updatekeyword(KeywordList keyword1, KeywordList keyword2) {
         this.keyword1 = keyword1;
         this.keyword2 = keyword2;
+    }
+
+    public void updaterouteopen(boolean isOpened) {
+        this.isOpened = isOpened;
     }
 }

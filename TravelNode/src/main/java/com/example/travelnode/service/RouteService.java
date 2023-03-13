@@ -19,7 +19,6 @@ public class RouteService {
 
     private final CityRepository cityRepository;
     private final RouteRepository routeRepository;
-
     private final KeywordRepository keywordRepository;
 
 
@@ -88,4 +87,21 @@ public class RouteService {
     }
 
 
+    // 루트별 조회
+    public RouteResponseDto searchByRouteId(Long id) {
+        Route route = routeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(("해당 Route 가  존재하지 않습니다.")));
+        return new RouteResponseDto(route);
+    }
+
+    // 루트 공개 여부
+    public Long updaterouteopen(Long id, RouteOpenUpdateRequestDto requestDto) {
+        Route route = routeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(("해당 Route 가  존재하지 않습니다.")));
+        route.updaterouteopen(requestDto.isOpen());
+        routeRepository.save(route);
+        return id;
+    }
 }
+
+
