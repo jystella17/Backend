@@ -6,9 +6,9 @@ import com.example.travelnode.oauth2.entity.UserPrincipal;
 import com.example.travelnode.service.ReviewService;
 import com.example.travelnode.service.RoutePlaceService;
 import com.example.travelnode.service.RouteService;
-import com.example.travelnode.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,7 +29,6 @@ public class RouteController {
     private final RouteService routeService;
     private final RoutePlaceService routePlaceService;
     private final ReviewService reviewService;
-    private final UserService userService;
 
     @GetMapping("/{id}") // 루트 조회
     public RouteResponseDto searchRouteById(@PathVariable Long id) {
@@ -106,7 +105,8 @@ public class RouteController {
     }
 
     @PatchMapping("/update/route-date/{id}") // 루트날짜 수정
-    public LocalDate updateDay(@PathVariable Long id, @RequestParam LocalDate routeDay) {
+    public LocalDate updateDay(@PathVariable Long id, @RequestParam @DateTimeFormat(
+            pattern = "yyyy-MM-dd") LocalDate routeDay) {
 
         return routeService.updateRouteDay(id, routeDay);
     }
