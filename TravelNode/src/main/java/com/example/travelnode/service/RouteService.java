@@ -35,6 +35,7 @@ public class RouteService {
 
     @Transactional // 루트 정보 저장
     public Route createRoute(RouteCreateRequestDto requestDto, UserPrincipal userPrincipal) {
+        System.out.println(requestDto.getRouteName() + " " + requestDto.getCityId());
         User user = userRepository.findByUniqueId(userPrincipal.getUniqueId());
         City city = cityRepository.findById(requestDto.getCityId()).orElseThrow();
         KeywordList keyword1 = keywordRepository.findById(requestDto.getKeyId1()).orElseThrow();
