@@ -1,22 +1,19 @@
 
 package com.example.travelnode.entity;
 
-import com.example.travelnode.dto.CityUpdateRequestDto;
-import com.example.travelnode.dto.RouteDayUpdateRequestDto;
-import com.example.travelnode.dto.RouteNameUpdateRequestDto;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.sql.Date;
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Entity
 @Getter
@@ -40,33 +37,31 @@ public class Route {
     @JoinColumn(name = "CITY_ID", foreignKey = @ForeignKey(name = "fk_route_city"))
     private City city;
 
-    //@NotNull
     @ManyToOne
     @JoinColumn(name = "KEY_ID1", foreignKey = @ForeignKey(name = "fk_route_keyword1"))
     private KeywordList keyword1;
 
-    //@NotNull
     @ManyToOne
     @JoinColumn(name = "KEY_ID2", foreignKey = @ForeignKey(name = "fk_route_keyword2"))
     private KeywordList keyword2;
 
-    //@NotNull
+    @NotNull
     @Size(max = 128)
     @Column(name = "ROUTE_NAME", length = 128)
     private String routeName;
 
-    //@NotNull
-    @ColumnDefault("0")
+    @NotNull
     @Column(name = "SCRAP_COUNT")
     private Integer scrapCount;
 
-    //@NotNull
+    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     @Column(name = "ROUTE_DAY")
     private LocalDate routeDay;
 
-    //@ColumnDefault("false")
-    @Column(name = "IS_OPEN")
-    private Boolean isOpened;
+    @ColumnDefault("false")
+    @Column(name = "IS_PRIVATE")
+    private Boolean isPrivate;
 
     @ColumnDefault("false")
     @Column(name = "IS_FOLLOWING")
@@ -85,38 +80,44 @@ public class Route {
     }
 
     @Builder
-    public Route(City city, KeywordList keyword1, KeywordList keyword2, String routeName, LocalDate routeDay, boolean isOpened ) {
-        //this.user = user; 유저 정보 필요 없음
+    public Route(User user, City city, KeywordList keyword1, KeywordList keyword2, String routeName,
+                 Boolean isPrivate, LocalDate routeDay, Integer scrapCount) {
+        Assert.hasText(String.valueOf(user), "User must not be empty");
+        Assert.hasText(String.valueOf(city), "City  must not be empty");
+        Assert.hasText(routeName, "Route Name must not be empty");
+        Assert.hasText(String.valueOf(routeDay), "Route Day must not be empty");
+
+        this.user = user;
         this.city = city;
         this.keyword1 = keyword1;
         this.keyword2 = keyword2;
         this.routeName = routeName;
         this.routeDay = routeDay;
-        this.isOpened = isOpened;
-
+        this.isPrivate = isPrivate;
+        this.scrapCount = scrapCount != null ? scrapCount : 0;
     }
 
-    // 도시, 키워드 수정 부분 --> 엔티티라 this.city = dto.getCityId(); 가 안됨...
-    public void updatecity(City city){
+    public void updateCity(City city){
         this.city = city;
     }
 
-    public void updateroutename(RouteNameUpdateRequestDto dto) {
-
-        this.routeName = dto.getRouteName();
+    public void updateRouteName(String routeName) {
+        this.routeName = routeName;
     }
 
-
-    public void updaterouteday(RouteDayUpdateRequestDto dto) {
-        this.routeDay = dto.getRouteDay();
+    public void updateRouteDay(LocalDate routeDay) {
+        this.routeDay = routeDay;
     }
 
-    public void updatekeyword(KeywordList keyword1, KeywordList keyword2) {
-        this.keyword1 = keyword1;
-        this.keyword2 = keyword2;
+    public void updateKeyword1(KeywordList keyword) {
+        this.keyword1 = keyword;
     }
 
-    public void updaterouteopen(boolean isOpened) {
-        this.isOpened = isOpened;
+    public void updateKeyword2(KeywordList keyword) {
+        this.keyword2 = keyword;
+    }
+
+    public void updateRoutePrivate(boolean isPrivate) {
+        this.isPrivate = isPrivate;
     }
 }
