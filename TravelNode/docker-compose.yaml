@@ -5,7 +5,7 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: travel_node
-      MYSQL_ROOT_PASSWORD: jystella
+      MYSQL_ROOT_PASSWORD: 
     ports:
       - 3306:3306
 
@@ -15,7 +15,7 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/travel_node
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: jystella
+      SPRING_DATASOURCE_PASSWORD: 
     ports:
       - 8080:8080
     depends_on:
