@@ -35,12 +35,10 @@ public class RouteService {
 
     @Transactional // 루트 정보 저장
     public Route createRoute(RouteCreateRequestDto requestDto, UserPrincipal userPrincipal) {
-        System.out.println(requestDto.getRouteName() + " " + requestDto.getCityId());
-        System.out.println(requestDto.getCityId().getClass());
         User user = userRepository.findByUniqueId(userPrincipal.getUniqueId());
         City city = cityRepository.findById(requestDto.getCityId()).orElseThrow();
-        KeywordList keyword1 = keywordRepository.findById(requestDto.getKeyId1()).orElseThrow();
-        KeywordList keyword2 = keywordRepository.findById(requestDto.getKeyId2()).orElseThrow();
+        KeywordList keyword1 = keywordRepository.findById(requestDto.getKeywords().get(0)).orElseThrow();
+        KeywordList keyword2 = keywordRepository.findById(requestDto.getKeywords().get(1)).orElseThrow();
 
         Route route = Route.builder().user(user).city(city).keyword1(keyword1).keyword2(keyword2).
                       routeName(requestDto.getRouteName()).isPrivate(requestDto.getIsPrivate()).
@@ -104,7 +102,7 @@ public class RouteService {
     @Transactional
     public void deleteRoute(Long routeId) {
         Route route = routeRepository.findById(routeId)
-                .orElseThrow(() -> new IllegalArgumentException(("해당 루트가  존재하지 않습니다.")));
+                .orElseThrow(() -> new IllegalArgumentException(("해당 루트가 존재하지 않습니다.")));
 
         routeRepository.delete(route);
     }

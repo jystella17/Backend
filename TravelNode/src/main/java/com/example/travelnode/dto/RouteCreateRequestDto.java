@@ -11,8 +11,7 @@ import java.util.List;
 public class RouteCreateRequestDto implements Serializable {
 
     private final Long cityId;
-    private final Long keyId1;
-    private final Long keyId2;
+    private final List<Long> keywords;
     private final String routeName;
     private final Boolean isPrivate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -21,12 +20,11 @@ public class RouteCreateRequestDto implements Serializable {
     private final List<ReviewRequestDto> reviews;
 
     @Builder
-    public RouteCreateRequestDto(Long cityId, Long keyId1, Long keyId2, String routeName, Boolean isPrivate,
+    public RouteCreateRequestDto(Long cityId, List<Long> keywords, String routeName, Boolean isPrivate,
                                  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") LocalDate routeDay,
                                  List<PlaceRegisterRequestDto> places, List<ReviewRequestDto> reviews) {
         this.cityId = cityId;
-        this.keyId1 = keyId1;
-        this.keyId2 = keyId2;
+        this.keywords = keywords;
         this.routeName = routeName;
         this.isPrivate = isPrivate;
         this.routeDay = routeDay;
