@@ -37,10 +37,11 @@ public class RouteService {
     public Route createRoute(RouteCreateRequestDto requestDto, UserPrincipal userPrincipal) {
         User user = userRepository.findByUniqueId(userPrincipal.getUniqueId());
         City city = cityRepository.findById(requestDto.getCityId()).orElseThrow();
-        KeywordList keyword1 = keywordRepository.findById(requestDto.getKeywords().get(0)).orElseThrow();
-        KeywordList keyword2 = keywordRepository.findById(requestDto.getKeywords().get(1)).orElseThrow();
+        // KeywordList keyword1 = keywordRepository.findById(requestDto.getKeywords().get(0)).orElseThrow();
+        // KeywordList keyword2 = keywordRepository.findById(requestDto.getKeywords().get(1)).orElseThrow();
 
-        Route route = Route.builder().user(user).city(city).keyword1(keyword1).keyword2(keyword2).
+        // .keyword1(keyword1).keyword2(keyword2)
+        Route route = Route.builder().user(user).city(city).
                       routeName(requestDto.getRouteName()).isPrivate(requestDto.getIsPrivate()).
                       routeDay(requestDto.getRouteDay()).scrapCount(0).build();
 
@@ -58,6 +59,7 @@ public class RouteService {
         return route.getCity();
     }
 
+    /**
     @Transactional // 루트 키워드 수정
     public KeywordList updateKeyword(Long routeId, Long currentKey, Long newKey) {
         Route route = routeRepository.findById(routeId)
@@ -71,6 +73,7 @@ public class RouteService {
 
         return keyword;
     }
+     **/
 
     @Transactional
     public String updateRouteName(Long routeId, String routeName) {

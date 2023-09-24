@@ -2,7 +2,7 @@ package com.example.travelnode.service;
 
 import com.example.travelnode.dto.SpotInfoDto;
 import com.example.travelnode.entity.SpotInfo;
-import com.example.travelnode.repository.SpotInfoRepository;
+// import com.example.travelnode.repository.SpotInfoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SpotService {
 
+    /**
     private final SpotInfoRepository spotInfoRepository;
 
     public List<SpotInfo> getAllSpots() {
@@ -39,4 +40,5 @@ public class SpotService {
         SpotInfo spotInfo = spotInfoRepository.findSpotInfoBySpotName(spotName);
         spotInfoRepository.delete(spotInfo);
     }
+    **/
 }

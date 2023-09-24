@@ -21,6 +21,7 @@ public class SpotController {
 
     private final SpotService spotService;
 
+    /**
     @GetMapping("/list")
     public List<SpotInfo> getSpotLists(@AuthenticationPrincipal UserPrincipal userPrincipal) throws Exception {
 
@@ -78,4 +79,5 @@ public class SpotController {
         }
         spotService.deleteSpotInfo(spotName);
     }
+    **/
 }

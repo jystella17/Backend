@@ -15,6 +15,7 @@ public class RoutePlaceController {
 
     private final RoutePlaceService routePlaceService;
 
+    /**
     @GetMapping("/details")
     // 사용자가 입력한 장소 이름을 기준으로
     public List<SpotInfoDto> placeDetails(@RequestParam String loc, @RequestParam Double longitude,
@@ -34,14 +35,12 @@ public class RoutePlaceController {
         return routePlaceService.allPlacesInRoute(routeName);
     }
 
-    /**
     @PostMapping("/register")
     // 장소 등록하기 버튼 클릭 시 현재 루트에 해당 장소 저장
     public RoutePlace registerPlace(@RequestBody PlaceRegisterRequestDto placeRegisterRequestDto) throws ParseException {
 
         return routePlaceService.registerRoutePlace(placeRegisterRequestDto);
     }
-     **/
 
     @PatchMapping("/change-name")
     public RoutePlace changePlaceName(@RequestParam String prevName, @RequestParam String placeName) {
@@ -54,4 +53,5 @@ public class RoutePlaceController {
                             @RequestParam String routeName, @RequestParam Integer priority) {
         routePlaceService.deletePlace(placeId, routeName, priority);
     }
+     **/
 }

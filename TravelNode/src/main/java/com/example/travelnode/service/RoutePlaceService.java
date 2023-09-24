@@ -8,7 +8,7 @@ import com.example.travelnode.entity.SpotInfo;
 import com.example.travelnode.entity.User;
 import com.example.travelnode.repository.RoutePlaceRepository;
 import com.example.travelnode.repository.RouteRepository;
-import com.example.travelnode.repository.SpotInfoRepository;
+// import com.example.travelnode.repository.SpotInfoRepository;
 import io.jsonwebtoken.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -33,10 +33,11 @@ public class RoutePlaceService {
 
     @Value("${app.kakao.rest-api-key}")
     private String kakaoApiKey;
-    private final SpotInfoRepository spotInfoRepository;
+    // private final SpotInfoRepository spotInfoRepository;
     private final RouteRepository routeRepository;
     private final RoutePlaceRepository routePlaceRepository;
 
+    /**
     // Kakao Map에서 받은 여러 개의 데이터를 현재 위치에서 가까운 순으로 정렬해서 리턴 or DB에 저장된 장소 정보 리턴
     public List<SpotInfoDto> locationInfoList(String loc, Double longitude, Double latitude) throws ParseException {
         List<SpotInfoDto> placeInfoList = new ArrayList<>();
@@ -174,4 +175,5 @@ public class RoutePlaceService {
 
         return routePlaceRepository.findAllPlacesByRoute(route);
     }
+    **/
 }
