@@ -35,9 +35,9 @@ public class RouteController {
     }
 
     // 루트 정보 등록
-    @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/register")
     public Route registerRoute(@AuthenticationPrincipal UserPrincipal userPrincipal,
-                               @RequestPart(value = "infos") RouteCreateRequestDto requestDto)
+                               @RequestPart RouteCreateRequestDto requestDto)
             throws Exception {
 
         if(userPrincipal == null) {
