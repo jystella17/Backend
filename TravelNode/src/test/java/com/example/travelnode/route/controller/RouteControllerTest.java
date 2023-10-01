@@ -29,13 +29,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(value = RouteController.class,
-        excludeFilters = {
-                @ComponentScan.Filter(
-                        type = FilterType.ASSIGNABLE_TYPE,
-                        classes = SecurityConfig.class
-                )
-        })
+@WebMvcTest(value = RouteController.class, excludeFilters = {
+        @ComponentScan.Filter(
+                type = FilterType.ASSIGNABLE_TYPE,
+                classes = SecurityConfig.class
+        )
+})
 public class RouteControllerTest {
     @Autowired
     private MockMvc mockMvc;
