@@ -77,14 +77,13 @@ public class User {
     @Builder
     public User( // 새로운 유저가 가입하는 경우
                  @NotNull @Size(max = 128) String uniqueId, String email, @NotNull @Size(max = 10) String nickname,
-                 @NotNull RoleType roleType, @NotNull ProviderType providerType, LocalDateTime createdAt,
-                 Integer travelCount, Integer level) {
+                 @NotNull RoleType roleType, @NotNull ProviderType providerType) {
         this.uniqueId = uniqueId;
         this.email = email != null ? email : "NO_EMAIL";
         this.nickname = nickname;
         this.roleType = roleType;
         this.providerType = providerType;
-        this.createdAt = createdAt != null ? createdAt : LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
         this.modifiedAt = LocalDateTime.now();
         this.travelCount = travelCount != null ? travelCount : 0;
         this.level = level != null ? level : 1;

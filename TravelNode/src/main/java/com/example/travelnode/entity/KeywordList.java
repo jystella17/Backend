@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
-@Table(name = "KEYWORD_LIST")
+@Table(name = "KEYWORDS")
 public class KeywordList {
 
     @Id

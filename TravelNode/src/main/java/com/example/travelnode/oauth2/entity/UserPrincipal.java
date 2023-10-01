@@ -24,12 +24,12 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     private final String nickname;
     @Getter
     private final RoleType roleType;
+    @Getter
     private final ProviderType providerType;
-    // private final String accessToken;
-    // private final String refreshToken;
+    @Getter
     private final Collection<GrantedAuthority> authorities;
+    @Getter
     private Map<String, Object> attributes;
-    private static Token token;
 
     public UserPrincipal(String uniqueId, String email, String nickname, RoleType roleType,
                          ProviderType providerType, Collection<GrantedAuthority> authorities) {
@@ -68,9 +68,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     }
 
     @Override
-    public String getUsername() {
-        return nickname;
-    }
+    public String getUsername() { return nickname; }
 
     @Override
     public boolean isAccountNonExpired() {
@@ -90,16 +88,6 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    @Override
-    public Map<String, Object> getAttributes() {
-        return attributes;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
     }
 
     @Override

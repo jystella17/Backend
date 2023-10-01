@@ -29,8 +29,9 @@ public class OAuthAttributes { // OAuth2User의 return 값은 Map 형태이므�
     }
 
     public static OAuthAttributes of(String provider, String nameAttributeName, Map<String, Object> attributes) {
-        if("kakao".equals(provider))
+        if("kakao".equals(provider)) {
             return ofKakao(nameAttributeName, attributes);
+        }
 
         return null; // 예외처리 필요
     }
@@ -55,10 +56,6 @@ public class OAuthAttributes { // OAuth2User의 return 값은 Map 형태이므�
                 .nickname(nickname)
                 .roleType(RoleType.USER)
                 .providerType(ProviderType.KAKAO)
-                .createdAt(LocalDateTime.now())
-                .modifiedAt(LocalDateTime.now())
-                .travelCount(0)
-                .level(1)
                 .build();
     }
 }
