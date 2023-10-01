@@ -2,7 +2,7 @@ package com.example.travelnode.service;
 
 import com.example.travelnode.dto.*;
 import com.example.travelnode.entity.City;
-import com.example.travelnode.entity.KeywordList;
+import com.example.travelnode.entity.Keywords;
 import com.example.travelnode.entity.Route;
 import com.example.travelnode.entity.User;
 import com.example.travelnode.oauth2.entity.UserPrincipal;
@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -37,16 +39,15 @@ public class RouteService {
     public Route createRoute(RouteCreateRequestDto requestDto, UserPrincipal userPrincipal) {
         User user = userRepository.findByUniqueId(userPrincipal.getUniqueId());
         City city = cityRepository.findById(requestDto.getCityId()).orElseThrow();
-        // KeywordList keyword1 = keywordRepository.findById(requestDto.getKeywords().get(0)).orElseThrow();
-        // KeywordList keyword2 = keywordRepository.findById(requestDto.getKeywords().get(1)).orElseThrow();
 
-        // .keyword1(keyword1).keyword2(keyword2)
-        System.out.println("Service");
-        System.out.println(userPrincipal.getName() + " " + userPrincipal.getNickname() + " " + userPrincipal.getRoleType());
+        List<Keywords> keywords = new ArrayList<>();
+        for(int i=0; i<2; i++) {
+            keywords.add(keywordRepository.findKeywordsByKeyId(requestDto.getKeywords().get(i)));
+        }
 
-        Route route = Route.builder().user(user).city(city).
-                      routeName(requestDto.getRouteName()).isPrivate(requestDto.getIsPrivate()).
-                      routeDay(requestDto.getRouteDay()).scrapCount(0).build();
+        Route route = Route.builder().user(user).city(city).keywordsList(keywords)
+                .routeName(requestDto.getRouteName()).isPrivate(requestDto.getIsPrivate())
+                .routeDay(requestDto.getRouteDay()).scrapCount(0).build();
 
         return routeRepository.save(route);
     }
@@ -64,11 +65,11 @@ public class RouteService {
 
     /**
     @Transactional // 루트 키워드 수정
-    public KeywordList updateKeyword(Long routeId, Long currentKey, Long newKey) {
+    public Keywords updateKeyword(Long routeId, Long currentKey, Long newKey) {
         Route route = routeRepository.findById(routeId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 루트가 존재하지 않습니다."));
 
-        KeywordList keyword = keywordRepository.findById(newKey).orElseThrow();
+        Keywords keyword = keywordRepository.findById(newKey).orElseThrow();
         if(route.getKeyword1().getKeyId().equals(currentKey))
             route.updateKeyword1(keyword);
         else

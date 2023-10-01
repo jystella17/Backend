@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Getter
 @Table(name = "KEYWORDS")
-public class KeywordList {
+public class Keywords {
 
     @Id
     @Column(name = "KEY_ID")

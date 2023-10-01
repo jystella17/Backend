@@ -13,6 +13,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -36,15 +38,8 @@ public class Route {
     @JoinColumn(name = "CITY_ID", foreignKey = @ForeignKey(name = "fk_route_city"))
     private City city;
 
-    /**
-    @ManyToOne
-    @JoinColumn(name = "KEY_ID1", foreignKey = @ForeignKey(name = "fk_route_keyword1"))
-    private KeywordList keyword1;
-
-    @ManyToOne
-    @JoinColumn(name = "KEY_ID2", foreignKey = @ForeignKey(name = "fk_route_keyword2"))
-    private KeywordList keyword2;
-    **/
+    @OneToMany(mappedBy = "keyId")
+    private List<Keywords> keywordsList = new ArrayList<>();
 
     @NotNull
     @Size(max = 128)
@@ -68,7 +63,6 @@ public class Route {
     @Column(name = "IS_FOLLOWING")
     private Boolean isFollowing;
 
-
     public void addScrap() {
         this.scrapCount++;
     }
@@ -78,8 +72,7 @@ public class Route {
     }
 
     @Builder
-    // KeywordList keyword1, KeywordList keyword2,
-    public Route(User user, City city, String routeName,
+    public Route(User user, City city, List<Keywords> keywordsList, String routeName,
                  Boolean isPrivate, LocalDate routeDay, Integer scrapCount) {
         Assert.hasText(String.valueOf(user), "User must not be empty");
         Assert.hasText(String.valueOf(city), "City  must not be empty");
@@ -88,8 +81,7 @@ public class Route {
 
         this.user = user;
         this.city = city;
-        // this.keyword1 = keyword1;
-        // this.keyword2 = keyword2;
+        this.keywordsList = keywordsList;
         this.routeName = routeName;
         this.routeDay = routeDay;
         this.isPrivate = isPrivate;
@@ -109,11 +101,11 @@ public class Route {
     }
 
     /**
-    public void updateKeyword1(KeywordList keyword) {
+    public void updateKeyword1(Keywords keyword) {
         this.keyword1 = keyword;
     }
 
-    public void updateKeyword2(KeywordList keyword) {
+    public void updateKeyword2(Keywords keyword) {
         this.keyword2 = keyword;
     }
      **/

@@ -23,6 +23,8 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -53,16 +55,11 @@ public class RouteControllerTest {
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-        Long cityId = 1L;
-        // List<Long> keywords = new ArrayList<>();
-        // keywords.add(1L); keywords.add(2L);
-        
-        String routeName = "졸업 기념 서울여행";
-        Boolean isPrivate = false;
-        LocalDate routeDay = LocalDate.parse("2023-09-25");
+        List<Long> keywords = new ArrayList<>();
+        keywords.add(1L); keywords.add(2L);
 
         RouteCreateRequestDto requestDto = new RouteCreateRequestDto(
-                cityId, routeName, isPrivate, routeDay
+                1L, keywords, "졸업 기념 서울여행", false, LocalDate.parse("2023-09-25")
         );
 
         mockMvc.perform(post("/api/v1/route/register")

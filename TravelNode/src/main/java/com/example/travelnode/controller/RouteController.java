@@ -72,7 +72,7 @@ public class RouteController {
 
     /**
     @PatchMapping("/update/keyword/{routeId}") // 루트키워드 수정
-    public KeywordList updateKeyword(@PathVariable Long routeId, @RequestParam Long currentKey, @RequestParam Long newKey) {
+    public Keywords updateKeyword(@PathVariable Long routeId, @RequestParam Long currentKey, @RequestParam Long newKey) {
 
         return routeService.updateKeyword(routeId, currentKey, newKey);
     }
