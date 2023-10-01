@@ -1,4 +1,3 @@
-
 package com.example.travelnode.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;

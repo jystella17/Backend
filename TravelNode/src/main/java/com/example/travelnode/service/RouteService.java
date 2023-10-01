@@ -41,6 +41,9 @@ public class RouteService {
         // KeywordList keyword2 = keywordRepository.findById(requestDto.getKeywords().get(1)).orElseThrow();
 
         // .keyword1(keyword1).keyword2(keyword2)
+        System.out.println("Service");
+        System.out.println(userPrincipal.getName() + " " + userPrincipal.getNickname() + " " + userPrincipal.getRoleType());
+
         Route route = Route.builder().user(user).city(city).
                       routeName(requestDto.getRouteName()).isPrivate(requestDto.getIsPrivate()).
                       routeDay(requestDto.getRouteDay()).scrapCount(0).build();

@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,11 +57,6 @@ public class User {
     @Column(name = "MODIFIED_AT")
     private LocalDateTime modifiedAt;
 
-//    // @NotNull
-//    @ManyToOne
-//    @JoinColumn(name = "AVATAR_ID") // foreignKey = @ForeignKey(name = "fk_user_avatarId")
-//    private Avatar avatar;
-
     // 여행 성향
     @OneToMany(mappedBy = "user")
     private List<UserPreference> prefer_list = new ArrayList<>();
@@ -78,21 +74,34 @@ public class User {
     @Column(name = "LEVEL")
     private Integer level;
 
-    // 여행 성향 추가
     @Builder
     public User( // 새로운 유저가 가입하는 경우
                  @NotNull @Size(max = 128) String uniqueId, String email, @NotNull @Size(max = 10) String nickname,
-                 @NotNull RoleType roleType, @NotNull ProviderType providerType, @NotNull LocalDateTime createdAt,
-                 @NotNull LocalDateTime modifiedAt, Integer travelCount, Integer level, List<UserPreference> prefer_list) {
+                 @NotNull RoleType roleType, @NotNull ProviderType providerType, LocalDateTime createdAt,
+                 Integer travelCount, Integer level) {
         this.uniqueId = uniqueId;
         this.email = email != null ? email : "NO_EMAIL";
         this.nickname = nickname;
         this.roleType = roleType;
         this.providerType = providerType;
-        this.createdAt = createdAt;
-        this.modifiedAt = modifiedAt;
-        // @NotNull Avatar avatar
-        // this.avatar = avatar;\
+        this.createdAt = createdAt != null ? createdAt : LocalDateTime.now();
+        this.modifiedAt = LocalDateTime.now();
+        this.travelCount = travelCount != null ? travelCount : 0;
+        this.level = level != null ? level : 1;
+    }
+
+    @Builder
+    public User( // 새로운 유저가 가입하는 경우
+                 @NotNull @Size(max = 128) String uniqueId, String email, @NotNull @Size(max = 10) String nickname,
+                 @NotNull RoleType roleType, @NotNull ProviderType providerType, LocalDateTime createdAt,
+                 Integer travelCount, Integer level, List<UserPreference> prefer_list) {
+        this.uniqueId = uniqueId;
+        this.email = email != null ? email : "NO_EMAIL";
+        this.nickname = nickname;
+        this.roleType = roleType;
+        this.providerType = providerType;
+        this.createdAt = createdAt != null ? createdAt : LocalDateTime.now();
+        this.modifiedAt = LocalDateTime.now();
         this.prefer_list = prefer_list;
         this.travelCount = travelCount != null ? travelCount : 0;
         this.level = level != null ? level : 1;

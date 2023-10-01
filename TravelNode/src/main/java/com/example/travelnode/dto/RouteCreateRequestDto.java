@@ -1,6 +1,6 @@
 package com.example.travelnode.dto;
 
-import com.example.travelnode.entity.KeywordList;
+// import com.example.travelnode.entity.KeywordList;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 

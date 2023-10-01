@@ -17,10 +17,12 @@ import java.util.Map;
 
 @Getter
 public class UserPrincipal implements OAuth2User, UserDetails {
-    private final Long uid;
+    @Getter
     private final String uniqueId;
+    @Getter
     private final String email;
     private final String nickname;
+    @Getter
     private final RoleType roleType;
     private final ProviderType providerType;
     // private final String accessToken;
@@ -29,9 +31,8 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     private Map<String, Object> attributes;
     private static Token token;
 
-    public UserPrincipal(Long uid, String uniqueId, String email, String nickname, RoleType roleType,
+    public UserPrincipal(String uniqueId, String email, String nickname, RoleType roleType,
                          ProviderType providerType, Collection<GrantedAuthority> authorities) {
-        this.uid = uid;
         this.uniqueId = uniqueId;
         this.email = email;
         this.nickname = nickname;
@@ -45,7 +46,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
                 new SimpleGrantedAuthority(user.getRoleType().getCode()));
 
         return new UserPrincipal(
-                user.getUid(), user.getUniqueId(), user.getEmail(), user.getNickname(),
+                user.getUniqueId(), user.getEmail(), user.getNickname(),
                 user.getRoleType(), user.getProviderType(), authorities
         );
     }
@@ -102,25 +103,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     }
 
     @Override
-    public String getName() {
-        return String.valueOf(uid);
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getUniqueId() {
-        return uniqueId;
-    }
-
-    public RoleType getRoleType() {
-        return roleType;
-    }
-
-    public ProviderType getProviderType() {
-        return providerType;
-    }
+    public String getName() { return uniqueId; }
 }
 
 

@@ -3,20 +3,24 @@ package com.example.travelnode.controller;
 import com.example.travelnode.dto.*;
 import com.example.travelnode.entity.*;
 import com.example.travelnode.oauth2.entity.UserPrincipal;
-// import com.example.travelnode.service.ReviewService;
-// import com.example.travelnode.service.RoutePlaceService;
 import com.example.travelnode.service.RouteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,11 +41,20 @@ public class RouteController {
     // 루트 정보 등록
     @PostMapping(value = "/register")
     public Route registerRoute(@AuthenticationPrincipal UserPrincipal userPrincipal,
-                               @RequestPart RouteCreateRequestDto requestDto)
-            throws Exception {
+                               @RequestBody RouteCreateRequestDto requestDto) throws Exception {
 
         if(userPrincipal == null) {
-            throw new UserPrincipalNotFoundException("No User Information");
+            SecurityContext context = SecurityContextHolder.getContext();
+            if(context == null) {
+                throw new UserPrincipalNotFoundException("No User Information");
+            }
+
+            else {
+                DefaultOAuth2User user = (DefaultOAuth2User) context.getAuthentication().getPrincipal();
+                userPrincipal = new UserPrincipal(user.getName(), user.getAttributes().get("email").toString(),
+                        user.getAttributes().get("nickname").toString(), RoleType.USER, ProviderType.KAKAO,
+                        (Collection<GrantedAuthority>) user.getAuthorities());
+            }
         }
 
         if(Objects.equals(userPrincipal.getRoleType().getCode(), RoleType.GUEST.getCode())) {
