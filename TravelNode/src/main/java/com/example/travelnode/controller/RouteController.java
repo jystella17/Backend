@@ -33,7 +33,7 @@ public class RouteController {
 
     // 루트 정보 등록
     @PostMapping(value = "/register")
-    public RouteResponseDto registerRoute(@RequestBody RouteCreateRequestDto requestDto) throws Exception {
+    public RouteResponseDto registerRoute(@RequestBody RouteCreateRequestDto requestDto) {
 
         DefaultOAuth2User user = (DefaultOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserPrincipal userPrincipal = new UserPrincipal(user.getName(), user.getAttributes().get("email").toString(),
@@ -47,33 +47,33 @@ public class RouteController {
         return routeService.createRoute(requestDto, userPrincipal);
     }
 
-    @PatchMapping("/update/city/{routeId}") // 도시 수정
-    public RouteResponseDto updateCity(@PathVariable Long routeId, @RequestParam Long cityId) {
+    @PatchMapping("/update-city/{routeId}") // 도시 수정
+    public String updateCity(@PathVariable Long routeId, @RequestParam Long cityId) {
 
         return routeService.updateCity(routeId, cityId);
     }
 
-    @PatchMapping("/update/keyword/{routeId}") // 키워드 수정
+    @PatchMapping("/update-keyword/{routeId}") // 키워드 수정
     public Keywords updateKeyword(@PathVariable Long routeId, @RequestParam Long currentKey, @RequestParam Long newKey) {
 
         return routeService.updateKeyword(routeId, currentKey, newKey);
     }
 
-    @PatchMapping("/update/name/{routeId}") // 루트 이름 수정
-    public String updateRouteName(@PathVariable Long routeId, @RequestBody String routeName) {
+    @PatchMapping("/update-name/{routeId}") // 루트 이름 수정
+    public String updateRouteName(@PathVariable Long routeId, @RequestParam String routeName) {
 
         return routeService.updateRouteName(routeId, routeName);
     }
 
-    @PatchMapping("/update/date/{routeId}") // 날짜 수정
-    public LocalDate updateDay(@PathVariable Long routeId, @RequestBody @DateTimeFormat(
+    @PatchMapping("/update-date/{routeId}") // 날짜 수정
+    public LocalDate updateDay(@PathVariable Long routeId, @RequestParam @DateTimeFormat(
             pattern = "yyyy-MM-dd") LocalDate routeDay) {
 
         return routeService.updateRouteDay(routeId, routeDay);
     }
 
-    @PatchMapping("/update/is-private/{routeId}") // 루트 공개 여부 결정
-    public Boolean updatePrivate(@PathVariable Long routeId, @RequestBody Boolean isPrivate) {
+    @PatchMapping("/update-private/{routeId}") // 루트 공개 여부 결정
+    public Boolean updatePrivate(@PathVariable Long routeId, @RequestParam Boolean isPrivate) {
 
         return routeService.updateRoutePrivate(routeId, isPrivate);
     }

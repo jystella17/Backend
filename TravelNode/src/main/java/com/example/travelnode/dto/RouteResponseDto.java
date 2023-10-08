@@ -25,4 +25,14 @@ public class RouteResponseDto {
         this.routeDay = entity.getRouteDay();
         this.open = entity.getIsPrivate();
     }
+
+    public RouteResponseDto(Long id, Long cityId, List<Keywords> keywordsList,
+                            String routeName, LocalDate routeDay, boolean open) {
+        this.id = id;
+        this.cityId = cityId;
+        this.keywordsList = keywordsList;
+        this.routeName = routeName;
+        this.routeDay = routeDay;
+        this.open = open;
+    }
 }

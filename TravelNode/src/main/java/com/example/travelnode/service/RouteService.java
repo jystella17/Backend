@@ -53,14 +53,14 @@ public class RouteService {
     }
 
     @Transactional // 여행 도시 수정
-    public RouteResponseDto updateCity(Long routeId, Long cityId) {
+    public String updateCity(Long routeId, Long cityId) {
         Route route = routeRepository.findById(routeId).orElseThrow(
                       () -> new IllegalArgumentException(("Invalid request")));
 
         City city = cityRepository.findById(cityId).orElseThrow();
         route.updateCity(city);
 
-        return new RouteResponseDto(route);
+        return city.getCityName();
     }
 
     @Transactional // 루트 키워드 수정
