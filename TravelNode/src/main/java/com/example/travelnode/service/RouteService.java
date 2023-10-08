@@ -27,16 +27,15 @@ public class RouteService {
     private final RouteRepository routeRepository;
     private final KeywordRepository keywordRepository;
 
-
     @Transactional // 루트별 조회
     public RouteResponseDto searchByRouteId(Long routeId) {
         Route route = routeRepository.findById(routeId)
-                .orElseThrow(() -> new IllegalArgumentException(("해당 루트가 존재하지 않습니다.")));
+                .orElseThrow(() -> new IllegalArgumentException(("This route does not exist.")));
         return new RouteResponseDto(route);
     }
 
     @Transactional // 루트 정보 저장
-    public Route createRoute(RouteCreateRequestDto requestDto, UserPrincipal userPrincipal) {
+    public RouteResponseDto createRoute(RouteCreateRequestDto requestDto, UserPrincipal userPrincipal) {
         User user = userRepository.findByUniqueId(userPrincipal.getUniqueId());
         City city = cityRepository.findById(requestDto.getCityId()).orElseThrow();
 
@@ -49,40 +48,40 @@ public class RouteService {
                 .routeName(requestDto.getRouteName()).isPrivate(requestDto.getIsPrivate())
                 .routeDay(requestDto.getRouteDay()).scrapCount(0).build();
 
-        return routeRepository.save(route);
+        route = routeRepository.save(route);
+        return new RouteResponseDto(route);
     }
 
     @Transactional // 여행 도시 수정
-    public City updateCity(Long routeId, Long cityId) {
+    public RouteResponseDto updateCity(Long routeId, Long cityId) {
         Route route = routeRepository.findById(routeId).orElseThrow(
-                      () -> new IllegalArgumentException(("해당 루트가 존재하지 않습니다.")));
+                      () -> new IllegalArgumentException(("Invalid request")));
 
         City city = cityRepository.findById(cityId).orElseThrow();
         route.updateCity(city);
 
-        return route.getCity();
+        return new RouteResponseDto(route);
     }
 
-    /**
     @Transactional // 루트 키워드 수정
     public Keywords updateKeyword(Long routeId, Long currentKey, Long newKey) {
         Route route = routeRepository.findById(routeId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 루트가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid request."));
 
         Keywords keyword = keywordRepository.findById(newKey).orElseThrow();
-        if(route.getKeyword1().getKeyId().equals(currentKey))
-            route.updateKeyword1(keyword);
-        else
-            route.updateKeyword2(keyword);
+        if(route.getKeywordsList().get(0).equals(currentKey)) {
+            route.updateKeyword(0, keywordRepository.findKeywordsByKeyId(newKey));
+        } else {
+            route.updateKeyword(1, keywordRepository.findKeywordsByKeyId(newKey));
+        }
 
         return keyword;
     }
-     **/
 
     @Transactional
     public String updateRouteName(Long routeId, String routeName) {
         Route route = routeRepository.findById(routeId).orElseThrow(
-                () -> new IllegalArgumentException(("해당 루트가 존재하지 않습니다.")));
+                () -> new IllegalArgumentException(("Invalid request.")));
 
         route.updateRouteName(routeName);
         return route.getRouteName();
@@ -91,7 +90,7 @@ public class RouteService {
     @Transactional
     public LocalDate updateRouteDay(Long routeId, LocalDate routeDay) {
         Route route = routeRepository.findById(routeId)
-                .orElseThrow(() -> new IllegalArgumentException(("해당 루트가 존재하지 않습니다.")));
+                .orElseThrow(() -> new IllegalArgumentException(("Invalid request.")));
 
         route.updateRouteDay(routeDay);
         return route.getRouteDay();
@@ -100,7 +99,7 @@ public class RouteService {
     @Transactional // 루트 공개 여부
     public Boolean updateRoutePrivate(Long routeId, Boolean isPrivate) {
         Route route = routeRepository.findById(routeId)
-                .orElseThrow(() -> new IllegalArgumentException(("해당 루트가 존재하지 않습니다.")));
+                .orElseThrow(() -> new IllegalArgumentException(("Invalid request.")));
 
         route.updateRoutePrivate(isPrivate);
         return route.getIsPrivate();
@@ -109,10 +108,8 @@ public class RouteService {
     @Transactional
     public void deleteRoute(Long routeId) {
         Route route = routeRepository.findById(routeId)
-                .orElseThrow(() -> new IllegalArgumentException(("해당 루트가 존재하지 않습니다.")));
+                .orElseThrow(() -> new IllegalArgumentException(("Nothing to delete.")));
 
         routeRepository.delete(route);
     }
 }
-
-

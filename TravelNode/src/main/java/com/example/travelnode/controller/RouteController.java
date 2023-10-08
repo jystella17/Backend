@@ -7,21 +7,14 @@ import com.example.travelnode.service.RouteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -40,22 +33,12 @@ public class RouteController {
 
     // 루트 정보 등록
     @PostMapping(value = "/register")
-    public Route registerRoute(@AuthenticationPrincipal UserPrincipal userPrincipal,
-                               @RequestBody RouteCreateRequestDto requestDto) throws Exception {
+    public RouteResponseDto registerRoute(@RequestBody RouteCreateRequestDto requestDto) throws Exception {
 
-        if(userPrincipal == null) {
-            SecurityContext context = SecurityContextHolder.getContext();
-            if(context == null) {
-                throw new UserPrincipalNotFoundException("No User Information");
-            }
-
-            else {
-                DefaultOAuth2User user = (DefaultOAuth2User) context.getAuthentication().getPrincipal();
-                userPrincipal = new UserPrincipal(user.getName(), user.getAttributes().get("email").toString(),
-                        user.getAttributes().get("nickname").toString(), RoleType.USER, ProviderType.KAKAO,
-                        (Collection<GrantedAuthority>) user.getAuthorities());
-            }
-        }
+        DefaultOAuth2User user = (DefaultOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserPrincipal userPrincipal = new UserPrincipal(user.getName(), user.getAttributes().get("email").toString(),
+                user.getAttributes().get("nickname").toString(), RoleType.USER, ProviderType.KAKAO,
+                (Collection<GrantedAuthority>) user.getAuthorities());
 
         if(Objects.equals(userPrincipal.getRoleType().getCode(), RoleType.GUEST.getCode())) {
             throw new AccessDeniedException("Do not have authority");
@@ -64,34 +47,32 @@ public class RouteController {
         return routeService.createRoute(requestDto, userPrincipal);
     }
 
-    @PatchMapping("/update/city/{routeId}") // 루트도시 수정
-    public City updateCity(@PathVariable Long routeId, @RequestParam Long cityId) {
+    @PatchMapping("/update/city/{routeId}") // 도시 수정
+    public RouteResponseDto updateCity(@PathVariable Long routeId, @RequestParam Long cityId) {
 
         return routeService.updateCity(routeId, cityId);
     }
 
-    /**
-    @PatchMapping("/update/keyword/{routeId}") // 루트키워드 수정
+    @PatchMapping("/update/keyword/{routeId}") // 키워드 수정
     public Keywords updateKeyword(@PathVariable Long routeId, @RequestParam Long currentKey, @RequestParam Long newKey) {
 
         return routeService.updateKeyword(routeId, currentKey, newKey);
     }
-     **/
 
-    @PatchMapping("/update/name/{routeId}") // 루트이름 수정
+    @PatchMapping("/update/name/{routeId}") // 루트 이름 수정
     public String updateRouteName(@PathVariable Long routeId, @RequestBody String routeName) {
 
         return routeService.updateRouteName(routeId, routeName);
     }
 
-    @PatchMapping("/update/date/{routeId}") // 루트날짜 수정
+    @PatchMapping("/update/date/{routeId}") // 날짜 수정
     public LocalDate updateDay(@PathVariable Long routeId, @RequestBody @DateTimeFormat(
             pattern = "yyyy-MM-dd") LocalDate routeDay) {
 
         return routeService.updateRouteDay(routeId, routeDay);
     }
 
-    @PatchMapping("/update/is-private/{routeId}") // 루트 공개여부 결정
+    @PatchMapping("/update/is-private/{routeId}") // 루트 공개 여부 결정
     public Boolean updatePrivate(@PathVariable Long routeId, @RequestBody Boolean isPrivate) {
 
         return routeService.updateRoutePrivate(routeId, isPrivate);

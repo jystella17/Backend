@@ -100,15 +100,9 @@ public class Route {
         this.routeDay = routeDay;
     }
 
-    /**
-    public void updateKeyword1(Keywords keyword) {
-        this.keyword1 = keyword;
+    public void updateKeyword(int idx, Keywords keyword) {
+        this.keywordsList.set(idx, keyword);
     }
-
-    public void updateKeyword2(Keywords keyword) {
-        this.keyword2 = keyword;
-    }
-     **/
 
     public void updateRoutePrivate(boolean isPrivate) {
         this.isPrivate = isPrivate;
