@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@Builder
 public class SpotInfoDto {
 
     private final String spotName;

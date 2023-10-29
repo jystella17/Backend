@@ -25,11 +25,6 @@ public class RoutePlace {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "UID", foreignKey = @ForeignKey(name = "fk_place_user"))
-    private User user;
-
-    @NotNull
-    @ManyToOne
     @JoinColumn(name = "SPOT_ID", foreignKey = @ForeignKey(name = "fk_place_spot"))
     private SpotInfo spot;
 
@@ -50,15 +45,13 @@ public class RoutePlace {
     private LocalDateTime visitTime;
 
     @Builder
-    public RoutePlace(@NotNull User user, @NotNull SpotInfo spot, @NotNull String placeName,
-                      @NotNull Route route, @NotNull Integer priority, LocalDateTime visitTime) {
-        Assert.hasText(String.valueOf(user), "User must not be empty");
+    public RoutePlace(@NotNull SpotInfo spot, @NotNull String placeName, @NotNull Route route,
+                      @NotNull Integer priority, LocalDateTime visitTime) {
         Assert.hasText(String.valueOf(spot), "Spot Info must not be empty");
         Assert.hasText(placeName, "Place Name must not be empty");
         Assert.hasText(String.valueOf(route), "Route must not be empty");
         Assert.hasText(String.valueOf(priority), "Priority must not be empty");
 
-        this.user = user;
         this.spot = spot;
         this.placeName = placeName;
         this.route = route;
@@ -66,7 +59,7 @@ public class RoutePlace {
         this.visitTime = visitTime != null ? visitTime : LocalDateTime.now();
     }
 
-    public void update(String placeName) {
+    public void updateName(String placeName) {
         this.placeName = placeName;
     }
 

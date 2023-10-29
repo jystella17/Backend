@@ -1,14 +1,14 @@
 package com.example.travelnode.service;
 
 import com.example.travelnode.dto.PlaceRegisterRequestDto;
+import com.example.travelnode.dto.PlaceResponseDto;
 import com.example.travelnode.dto.SpotInfoDto;
 import com.example.travelnode.entity.Route;
 import com.example.travelnode.entity.RoutePlace;
 import com.example.travelnode.entity.SpotInfo;
-import com.example.travelnode.entity.User;
 import com.example.travelnode.repository.RoutePlaceRepository;
 import com.example.travelnode.repository.RouteRepository;
-// import com.example.travelnode.repository.SpotInfoRepository;
+import com.example.travelnode.repository.SpotInfoRepository;
 import io.jsonwebtoken.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -33,11 +33,10 @@ public class RoutePlaceService {
 
     @Value("${app.kakao.rest-api-key}")
     private String kakaoApiKey;
-    // private final SpotInfoRepository spotInfoRepository;
+    private final SpotInfoRepository spotInfoRepository;
     private final RouteRepository routeRepository;
     private final RoutePlaceRepository routePlaceRepository;
 
-    /**
     // Kakao Map에서 받은 여러 개의 데이터를 현재 위치에서 가까운 순으로 정렬해서 리턴 or DB에 저장된 장소 정보 리턴
     public List<SpotInfoDto> locationInfoList(String loc, Double longitude, Double latitude) throws ParseException {
         List<SpotInfoDto> placeInfoList = new ArrayList<>();
@@ -65,7 +64,7 @@ public class RoutePlaceService {
         JSONObject jsonObject = (JSONObject) jsonParser.parse(placeInfos.getBody());
         JSONArray jsonArray = (JSONArray) jsonObject.get("documents");
 
-        if(jsonArray.size() == 0) { // API에서 검색되는 장소 정보가 없는 경우
+        if(jsonArray.isEmpty()) { // API에서 검색되는 장소 정보가 없는 경우
             // 단순히 사용자가 입력한 장소 이름, 현재 좌표만 저장, 주소는 empty string
             placeInfoList.add(new SpotInfoDto(loc, "", longitude, latitude));
             return placeInfoList;
@@ -118,37 +117,37 @@ public class RoutePlaceService {
     }
 
     @Transactional
-    public RoutePlace registerRoutePlace(PlaceRegisterRequestDto placeRegisterRequestDto,
-                                         Route route, User user) throws Exception {
-        if(route == null) {
-            throw new NullPointerException("존재하지 않는 루트입니다.");
-        }
+    public PlaceResponseDto registerRoutePlace(Long routeId, PlaceRegisterRequestDto requestDto) throws Exception {
+        Route route = routeRepository.findById(routeId).get();
+        String placeName = requestDto.getPlaceName().replaceAll(" ", "").trim();
+        SpotInfo spot = spotInfoRepository.findSpotInfoBySpotName(placeName);
 
-        String spotName = placeRegisterRequestDto.getSpotName().replaceAll(" ", "").trim();
-        SpotInfo spot = spotInfoRepository.findSpotInfoBySpotName(spotName);
         if(spot == null) { // 이전에 등록된 적 없는 장소인 경우 Kakao Map API로 장소 정보 검색 -> SpotInfo 테이블에 정보 저장
-            SpotInfoDto spotInfoDto = locationInfoList(spotName, placeRegisterRequestDto.getLongitude(),
-                    placeRegisterRequestDto.getLatitude()).get(0);
+            SpotInfoDto spotInfoDto = locationInfoList(placeName, requestDto.getLongitude(),
+                    requestDto.getLatitude()).get(0);
 
-            if(spotInfoDto.getSpotName().replaceAll(" ", "").equals(spotName)) {
-                spotName = spotInfoDto.getSpotName();
+            // 검색된 장소 이름과 사용자가 입력한 장소 이름이 다른 경우 사용자가 입력한 이름으로 저장
+            String searchName = spotInfoDto.getSpotName();
+            if(!searchName.equals(placeName)) {
+
             }
             spot = spotInfoRepository.save(spotInfoDto.toEntity());
         }
 
-        RoutePlace routePlace = RoutePlace.builder().user(user).spot(spot).placeName(spotName).route(route)
-                .priority(placeRegisterRequestDto.getPriority()).visitTime(placeRegisterRequestDto.getVisitTime()).build();
+        RoutePlace routePlace = RoutePlace.builder().spot(spot).placeName(placeName).route(route)
+                .priority(requestDto.getPriority()).visitTime(requestDto.getVisitTime()).build();
 
-        return routePlaceRepository.save(routePlace);
+        routePlace = routePlaceRepository.save(routePlace);
+        return new PlaceResponseDto(routePlace);
     }
 
     @Transactional
-    public RoutePlace updatePlaceName(String prevName, String placeName) {
+    public PlaceResponseDto updatePlaceName(String prevName, String placeName) {
         RoutePlace routePlace = routePlaceRepository.findBySpotName(prevName)
                 .orElseThrow(() -> new IllegalArgumentException("해당 장소가 루트에 존재하지 않습니다."));
 
-        routePlace.update(placeName);
-        return routePlace;
+        routePlace.updateName(placeName);
+        return new PlaceResponseDto(routePlace);
     }
 
     @Transactional
@@ -160,7 +159,7 @@ public class RoutePlaceService {
 
         // 장소가 삭제된 후, 같은 루트에 포함된 다른 장소들의 priority 재설정
         for(int i=priority+1; i<=5; i++) {
-            RoutePlace routePlace = routePlaceRepository.findByRouteAndPriority(route, i)
+            RoutePlace routePlace = routePlaceRepository.findByRouteAndPriority(route.getRouteId(), i)
                     .orElseThrow(() -> new IOException("루트에 포함된 마지막 장소입니다."));
 
             routePlace.changePriority(routePlace.getPriority()-1);
@@ -168,12 +167,15 @@ public class RoutePlaceService {
     }
 
     @Transactional
-    public List<RoutePlace> allPlacesInRoute(String routeName) {
-
-        Route route = routeRepository.findRouteByRouteName(routeName)
+    public List<PlaceResponseDto> allPlacesInRoute(Long routeId) {
+        Route route = routeRepository.findById(routeId)
                 .orElseThrow(() -> new NullPointerException("존재하지 않는 루트입니다."));
 
-        return routePlaceRepository.findAllPlacesByRoute(route);
+        List<PlaceResponseDto> places = new ArrayList<>();
+        for(RoutePlace rp: routePlaceRepository.findAllPlacesByRoute(route)) {
+            places.add(new PlaceResponseDto(rp));
+        }
+
+        return places;
     }
-    **/
 }

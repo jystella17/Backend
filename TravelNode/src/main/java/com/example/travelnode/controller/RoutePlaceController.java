@@ -1,5 +1,7 @@
 package com.example.travelnode.controller;
 
+import com.example.travelnode.dto.PlaceRegisterRequestDto;
+import com.example.travelnode.dto.PlaceResponseDto;
 import com.example.travelnode.dto.SpotInfoDto;
 import com.example.travelnode.entity.RoutePlace;
 import com.example.travelnode.service.RoutePlaceService;
@@ -9,41 +11,42 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api/v1/route/place")
+@RequestMapping("/api/v1/place")
 @RequiredArgsConstructor
 public class RoutePlaceController {
 
     private final RoutePlaceService routePlaceService;
 
-    /**
-    @GetMapping("/details")
-    // 사용자가 입력한 장소 이름을 기준으로
-    public List<SpotInfoDto> placeDetails(@RequestParam String loc, @RequestParam Double longitude,
+    // 사용자가 입력한 장소 이름을 기준으로 장소 정보 리턴
+    @GetMapping("/details/{loc}")
+    public List<SpotInfoDto> placeDetails(@PathVariable String loc, @RequestParam Double longitude,
                                  @RequestParam Double latitude) throws Exception {
 
         List<SpotInfoDto> spotInfoDto = routePlaceService.locationInfoList(loc, longitude, latitude);
-        if(spotInfoDto.size() == 0)
+        if(spotInfoDto.isEmpty()) {
             throw new Exception("Cannot Find Information");
+        }
 
         return spotInfoDto;
     }
 
     // 현재 루트에 포함된 모든 장소 리스트 리턴
-    @GetMapping("/list")
-    public List<RoutePlace> placeListInRoute(@RequestParam String routeName) {
+    @GetMapping("/place-list")
+    public List<PlaceResponseDto> placeListInRoute(@RequestParam Long routeId) {
 
-        return routePlaceService.allPlacesInRoute(routeName);
+        return routePlaceService.allPlacesInRoute(routeId);
     }
 
-    @PostMapping("/register")
     // 장소 등록하기 버튼 클릭 시 현재 루트에 해당 장소 저장
-    public RoutePlace registerPlace(@RequestBody PlaceRegisterRequestDto placeRegisterRequestDto) throws ParseException {
+    @PostMapping("/register/{routeId}")
+    public PlaceResponseDto registerPlace(@PathVariable Long routeId,
+                                          @RequestBody PlaceRegisterRequestDto requestDto) throws Exception {
 
-        return routePlaceService.registerRoutePlace(placeRegisterRequestDto);
+        return routePlaceService.registerRoutePlace(routeId, requestDto);
     }
 
-    @PatchMapping("/change-name")
-    public RoutePlace changePlaceName(@RequestParam String prevName, @RequestParam String placeName) {
+    @PatchMapping("/{prevName}/change-name")
+    public PlaceResponseDto changePlaceName(@PathVariable String prevName, @RequestParam String placeName) {
 
         return routePlaceService.updatePlaceName(prevName, placeName);
     }
@@ -53,5 +56,4 @@ public class RoutePlaceController {
                             @RequestParam String routeName, @RequestParam Integer priority) {
         routePlaceService.deletePlace(placeId, routeName, priority);
     }
-     **/
 }

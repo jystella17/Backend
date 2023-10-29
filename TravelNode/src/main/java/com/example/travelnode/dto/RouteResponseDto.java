@@ -2,6 +2,7 @@ package com.example.travelnode.dto;
 
 import com.example.travelnode.entity.Keywords;
 import com.example.travelnode.entity.Route;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -26,6 +27,7 @@ public class RouteResponseDto {
         this.open = entity.getIsPrivate();
     }
 
+    @Builder
     public RouteResponseDto(Long id, Long cityId, List<Keywords> keywordsList,
                             String routeName, LocalDate routeDay, boolean open) {
         this.id = id;

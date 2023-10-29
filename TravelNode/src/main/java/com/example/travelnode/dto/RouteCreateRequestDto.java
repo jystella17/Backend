@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Getter
-public class RouteCreateRequestDto implements Serializable {
+public class RouteCreateRequestDto {
 
     private final Long cityId;
     private final List<Long> keywords;

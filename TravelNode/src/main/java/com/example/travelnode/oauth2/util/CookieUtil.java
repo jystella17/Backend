@@ -53,4 +53,3 @@ public class CookieUtil {
                 Base64.getUrlDecoder().decode(cookie.getValue())));
     }
 }
-
